@@ -1,0 +1,37 @@
+/* app css stylesheet */
+
+body {
+  background: grey;
+}
+
+#shell{
+  width: 100%;
+  max-width: 1100px;
+  min-width: 700px;
+  margin: 0 auto;
+}
+
+#control-panel {
+  background: white;
+}
+
+#canvas-container{
+  background:black;
+}
+
+#canvas-container canvas{
+  background: purple;
+  width: 100%;
+}
+
+#angle canvas{
+  background: purple;
+  width: 100%;
+}
+#angle-num .button{
+  width: 15px;
+}
+
+#info{
+  color: white;
+}
