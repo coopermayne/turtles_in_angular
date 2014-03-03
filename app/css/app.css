@@ -27,6 +27,7 @@ body {
 #angle canvas{
   background: purple;
   width: 100%;
+  margin-bottom: 15px;
 }
 #angle-num .button{
   width: 15px;

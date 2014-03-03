@@ -20,7 +20,23 @@ app.controller('appCtrl', function($scope,Favorites) {
   $scope.$watch('options',function() {
     console.log($scope.options);
     $scope.render($scope.options);
-  }, true)
+  }, true);
+
+  $scope.incrementAngle = function() {
+    $scope.options.angle += 1;
+  };
+
+  $scope.decrementAngle = function() {
+    $scope.options.angle -= 1;
+  };
+
+  $scope.nextIteration = function() {
+    $scope.options.iterations += 1;
+  };
+
+  $scope.prevIteration = function() {
+    $scope.options.iterations -= 1;
+  };
 });
 
 app.directive('supersuper', function() {
