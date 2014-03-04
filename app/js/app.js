@@ -117,6 +117,25 @@ app.factory('Favorites', function() {
     },
     {
       id: 3,
+      name: 'Christmas Lights',
+      axiom: 'FX',
+      rules: [
+        {
+          input: 'X',
+          output: 'YXXFF'
+        }, {
+          input: 'Y',
+          output: 'XrFYrFX'
+        }, {
+          input: null,
+          output: null
+        }
+      ],
+      iterations: 11,
+      angle: 90.3
+    },
+    {
+      id: 4,
       name: 'Koch Curve',
       axiom: 'FrrFrrF',
       rules: [
