@@ -25,7 +25,7 @@
 
       <div id="angle" class="row">
         <div class="small-12 small-centered large-10 columns">
-          <canvas previewangle="{{options.angle}}" height=200 width=400></canvas>
+          <canvas id='angle-preview' previewangle="{{options.angle}}" height=200 width=400></canvas>
         </div>
         <div class='small-2 columns'>
         </div>
@@ -66,7 +66,7 @@
       </div>
 
       <div class="row">
-        <div class="small-3 large-2 columns">iterations</div>
+        <div class="small-3 large-2 columns">iter.</div>
         <div class='small-3 large-4 columns'>
           <input type=text ng-model="options.iterations">
         </div>
@@ -76,8 +76,10 @@
         </div>
       </div>
 
-      <div class="row">
-        <div ng-click="render(options)" class="button small-5 small-centered large-6 columns">draw</div>
+      <div id="save-button" class="row">
+        <div class="small-12 small-centered columns">
+          <div ng-click="save(options)" class="button">save</div>
+        </div>
       </div>
     </form>
   </div>
@@ -95,6 +97,7 @@
   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="js/app.js"></script>
   <script src="js/turtle.js"></script>
+  <script src="js/AngleDisplay.js"></script>
 </body>
 </html>
 

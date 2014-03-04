@@ -15,6 +15,23 @@ body {
   background: white;
 }
 
+#angle canvas{
+  width: 100%;
+  margin-bottom: 15px;
+}
+#angle-num .button{
+  width: 15px;
+}
+#save-button .button{
+  width: 100%;
+}
+
+
+/*graphic*/
+#info{
+  color: white;
+}
+
 #canvas-container{
   background:black;
 }
@@ -22,17 +39,4 @@ body {
 #canvas-container canvas{
   background: purple;
   width: 100%;
-}
-
-#angle canvas{
-  background: purple;
-  width: 100%;
-  margin-bottom: 15px;
-}
-#angle-num .button{
-  width: 15px;
-}
-
-#info{
-  color: white;
 }

@@ -2,10 +2,6 @@ var Turtle;
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 
-Number.prototype.toDegrees = function() {
-  return (this * 180 / Math.PI).toFixed(1);
-};
-
 Turtle = (function() {
   function Turtle(options) {
     this.startingString = options.axiom;
@@ -91,6 +87,8 @@ Turtle = (function() {
       x: this.pos.x,
       y: this.pos.y
     });
+    
+    //set the mins and maxes
     if (this.pos.x > this.max.x) {
       this.max.x = this.pos.x;
     }
@@ -101,7 +99,7 @@ Turtle = (function() {
       this.min.x = this.pos.x;
     }
     if (this.pos.y < this.min.y) {
-      return this.min.y = this.pos.y;
+      this.min.y = this.pos.y;
     }
   };
 

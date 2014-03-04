@@ -17,9 +17,12 @@ app.controller('appCtrl', function($scope,Favorites) {
     var t = new Turtle(options);
   }
 
+  $scope.$watch('options.angle',function() {
+    var a = new AngleDisplay($scope.options.angle);
+  }, true);
+
   $scope.$watch('options',function() {
-    console.log($scope.options);
-    $scope.render($scope.options);
+    $scope.render($scope.options)
   }, true);
 
   $scope.incrementAngle = function() {
