@@ -15,7 +15,11 @@ app.controller('appCtrl', function($scope,Favorites) {
 
   $scope.render = function(options) {
     var t = new Turtle(options);
-  }
+  };
+
+  $scope.save = function(options) {
+    alert('saving....');
+  };
 
   $scope.$watch('options.angle',function() {
     var a = new AngleDisplay($scope.options.angle);
@@ -26,19 +30,19 @@ app.controller('appCtrl', function($scope,Favorites) {
   }, true);
 
   $scope.incrementAngle = function() {
-    $scope.options.angle += 1;
+    $scope.options.angle = +$scope.options.angle +1;
   };
 
   $scope.decrementAngle = function() {
-    $scope.options.angle -= 1;
+    $scope.options.angle = +$scope.options.angle -1;
   };
 
   $scope.nextIteration = function() {
-    $scope.options.iterations += 1;
+    $scope.options.iterations = +$scope.options.iterations +1;
   };
 
   $scope.prevIteration = function() {
-    $scope.options.iterations -= 1;
+    $scope.options.iterations = +$scope.options.iterations -1;
   };
 });
 

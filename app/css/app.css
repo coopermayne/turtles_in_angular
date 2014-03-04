@@ -9,6 +9,8 @@ body {
   max-width: 1100px;
   min-width: 700px;
   margin: 0 auto;
+  background: white;
+  display:table;
 }
 
 #control-panel {
@@ -39,4 +41,9 @@ body {
 #canvas-container canvas{
   background: purple;
   width: 100%;
+}
+
+footer {
+  background:grey;
+  text-align: right;
 }
