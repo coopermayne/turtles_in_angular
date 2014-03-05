@@ -1,14 +1,14 @@
 var Turtle;
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-
 Turtle = (function() {
   function Turtle(options) {
     this.startingString = options.axiom;
     this.rules = options.rules;
-    this.iterations = options.iterations;
+    this.iterations = options.iterations || 1;
     this.d_radians = options.angle * (2 * Math.PI / 360);
     this.distance = 5;
+    this.lineWidth = options.lineWidth || 1;
     this.distanceMultiplier = options.distanceMultiplier || 1;
     this.canvas = document.getElementById('main');
     this.context = this.canvas.getContext('2d');
@@ -165,7 +165,8 @@ Turtle = (function() {
   Turtle.prototype.draw = function() {
     var ctx, i, point, _i, _len, _ref;
     ctx = this.context;
-    ctx.lineWidth = 0.5 / this.scaler;
+    //so the line is always the width we specified...
+    ctx.lineWidth = ( this.lineWidth/2 ) / this.scaler;
     ctx.lineJoin = 'round';
     ctx.strokeStyle = 'white';
     ctx.beginPath();

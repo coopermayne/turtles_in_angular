@@ -36,8 +36,8 @@
           <input type=text ng-model="options.angle">
         </div>
         <div class="small-6 columns">
-          <div ng-click="decrementAngle()" class="button tiny">-</div>
-          <div ng-click="incrementAngle()" class="button tiny">+</div>
+          <div ng-click="changeAngle('-1')" class="button tiny">-</div>
+          <div ng-click="changeAngle('+1')" class="button tiny">+</div>
         </div>
       </div>
 
@@ -70,8 +70,16 @@
           <input type=text ng-model="options.iterations">
         </div>
         <div class="small-6 columns">
-          <div ng-click="prevIteration()" class="button tiny">-</div>
-          <div ng-click="nextIteration()" class="button tiny">+</div>
+          <div ng-click="changeIteration(-1)" class="button tiny">-</div>
+          <div ng-click="changeIteration(+1)" class="button tiny">+</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-3 large-2 columns">line-width</div>
+        <div class="small-6 columns">
+          <div ng-click="changeLineWidth(-1)" class="button tiny">-</div>
+          <div ng-click="changeLineWidth(+1)" class="button tiny">+</div>
         </div>
       </div>
 

@@ -3,12 +3,26 @@
 // Declare app level module which depends on filters, and services
 var app = angular.module('myApp', [])
 
-app.controller('appCtrl', function($scope) {
-});
+app.controller('appCtrl', function($http, $scope,Favorites) {
+  $scope.favorites = [];
+  $scope.options = {};
 
-app.controller('appCtrl', function($scope,Favorites) {
-  $scope.favorites = Favorites;
-  $scope.options = Favorites[0];
+  var handleSuccess = function(data, status) {
+    for (var i = 0; i < data.length; i++) {
+      data[i].rules = [];
+      data[i].rules.push({input: data[i].rule1_input, output: data[i].rule1_output});
+      data[i].rules.push({input: data[i].rule2_input, output: data[i].rule2_output});
+      data[i].rules.push({input: data[i].rule3_input, output: data[i].rule3_output});
+    };
+    console.log(data);
+    $scope.favorites = data;
+    $scope.options = data[0];
+  }
+
+  Favorites.getFavorites()
+      .success(handleSuccess)
+      .error(function() {console.log('fail'); });
+
   $scope.change = function() {
     console.log($scope.options);
   };
@@ -26,23 +40,31 @@ app.controller('appCtrl', function($scope,Favorites) {
   }, true);
 
   $scope.$watch('options',function() {
-    $scope.render($scope.options)
+    if ($scope.options.angle) {
+      $scope.render($scope.options);
+    }
   }, true);
 
-  $scope.incrementAngle = function() {
-    $scope.options.angle = +$scope.options.angle +1;
+  $scope.changeAngle = function(number) {
+    $scope.options.angle = +$scope.options.angle + (+number);
   };
 
-  $scope.decrementAngle = function() {
-    $scope.options.angle = +$scope.options.angle -1;
+  $scope.changeIteration = function(number) {
+    $scope.options.iterations = +$scope.options.iterations + (+number);
   };
 
-  $scope.nextIteration = function() {
-    $scope.options.iterations = +$scope.options.iterations +1;
-  };
+  $scope.changeLineWidth= function(number) {
+    //set to default if it hadn't been set
+    
+    //DISABLED...
+    console.log('disable... was making program slow for some reason');
 
-  $scope.prevIteration = function() {
-    $scope.options.iterations = +$scope.options.iterations -1;
+    //$scope.options.lineWidth = $scope.options.lineWidth || 1;
+    //if (number===-1) {
+      //$scope.options.lineWidth = +$scope.options.lineWidth - (+$scope.options.lineWidth/3);
+    //} else if (number ===1){
+      //$scope.options.lineWidth = +$scope.options.lineWidth + (+$scope.options.lineWidth/3);
+    //}
   };
 });
 
@@ -56,102 +78,10 @@ app.directive('previewangle', function() {
   };
 });
 
-app.factory('Favorites', function() {
-  return [
-    {
-      id: 0,
-      name: 'Sierpinski Triangle',
-      axiom: 'FX',
-      rules: [
-        {
-          input: 'X',
-          output: 'YlFXlFY'
-        }, {
-          input: 'Y',
-          output: 'XrFYrFX'
-        }, {
-          input: null,
-          output: null
-        }
-      ],
-      iterations: 6,
-      angle: 60
-    },
-    {
-      id: 1,
-      name: 'Dragon',
-      axiom: "FX",
-      rules: [
-        {
-          input: 'X',
-          output: 'XlYFl'
-        }, {
-          input: 'Y',
-          output: 'rFXrY'
-        }, {
-          input: null,
-          output: null
-        }
-      ],
-      iterations: 6,
-      angle: 90
-    },
-    {
-      id: 2,
-      name: 'Plant',
-      axiom: 'FX',
-      rules: [
-        {
-          input: 'X',
-          output: 'Fr[[X]lX]lF[lFX]rX'
-        }, {
-          input: 'F',
-          output: 'FF'
-        }, {
-          input: null,
-          output: null
-        }
-      ],
-      iterations: 7,
-      angle: 30
-    },
-    {
-      id: 3,
-      name: 'Christmas Lights',
-      axiom: 'FX',
-      rules: [
-        {
-          input: 'X',
-          output: 'YXXFF'
-        }, {
-          input: 'Y',
-          output: 'XrFYrFX'
-        }, {
-          input: null,
-          output: null
-        }
-      ],
-      iterations: 11,
-      angle: 90.3
-    },
-    {
-      id: 4,
-      name: 'Koch Curve',
-      axiom: 'FrrFrrF',
-      rules: [
-        {
-          input: 'F',
-          output: 'FlFrrFlF'
-        }, {
-          input: null,
-          output: null
-        }, {
-          input: null,
-          output: null
-        }
-      ],
-      iterations: 8,
-      angle: 60 + 25.8
+app.factory('Favorites', function($http) {
+  return {
+    getFavorites: function(){
+      return $http.get('http://0.0.0.0:3000/saved_params');
     }
-  ];
+  }
 });
