@@ -24,10 +24,20 @@ body {
 #angle-num .button{
   width: 15px;
 }
-#save-button .button{
+.save-button .button{
   width: 100%;
 }
 
+.my-modal {
+  background: white;
+  padding: 25px 40px 15px 40px;
+  max-width: 200px;
+}
+
+.my-modal a {
+  float: right;
+  margin-top: 15px;
+}
 
 /*graphic*/
 #info{

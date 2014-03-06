@@ -1,0 +1,20 @@
+/*
+ * angular-modal v0.1.0
+ * (c) 2013 Brian Ford http://briantford.com
+ * License: MIT
+ */
+
+.btf-modal {
+  position: fixed;
+  top: 30%;
+  left: 60%;
+  width: 50%;
+  max-width: 550px;
+  min-width: 330px;
+  height: auto;
+  z-index: 2000;
+  -webkit-transform: translateX(-60%) translateY(-30%);
+  -moz-transform: translateX(-60%) translateY(-30%);
+  -ms-transform: translateX(-60%) translateY(-30%);
+  transform: translateX(-60%) translateY(-30%);
+}

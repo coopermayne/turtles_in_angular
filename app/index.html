@@ -16,7 +16,7 @@
 
       <div class="row">
         <select 
-          ng-change="change()"
+          ng-change="setUpCopy(options)"
           ng-model="options"
           ng-options="fav as fav.name for fav in favorites">
         </select>
@@ -24,7 +24,7 @@
 
       <div id="angle" class="row">
         <div class="small-12 small-centered large-10 columns">
-          <canvas id='angle-preview' previewangle="{{options.angle}}" height=200 width=400></canvas>
+          <canvas id='angle-preview' previewangle="{{favCopy.angle}}" height=200 width=400></canvas>
         </div>
         <div class='small-2 columns'>
         </div>
@@ -33,7 +33,7 @@
       <div id="angle-num" class="row">
         <div class="small-3 large-2 columns">angle</div>
         <div class='small-3 large-4 columns'>
-          <input type=text ng-model="options.angle">
+          <input type=text ng-model="favCopy.angle">
         </div>
         <div class="small-6 columns">
           <div ng-click="changeAngle('-1')" class="button tiny">-</div>
@@ -43,31 +43,31 @@
 
       <div class="row">
         <div class="small-3 large-2 columns">axiom</div>
-        <div class="small-9 large-10 columns"><input type="text" ng-model="options.axiom"></div>
+        <div class="small-9 large-10 columns"><input type="text" ng-model="favCopy.axiom"></div>
       </div>
 
       <div class="row">
         <div class="small-3 large-2 columns">rule1</div>
-        <div class="small-3 large-3 columns"><input type="text" ng-model="options.rules[0].input"></div>
-        <div class="small-6 large-7 columns"><input type="text" ng-model="options.rules[0].output"></div>
+        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[0].input"></div>
+        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[0].output"></div>
       </div>
 
       <div class="row">
         <div class="small-3 large-2 columns">rule2</div>
-        <div class="small-3 large-3 columns"><input type="text" ng-model="options.rules[1].input"></div>
-        <div class="small-6 large-7 columns"><input type="text" ng-model="options.rules[1].output"></div>
+        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[1].input"></div>
+        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[1].output"></div>
       </div>
 
       <div class="row">
         <div class="small-3 large-2 columns">rule3</div>
-        <div class="small-3 large-3 columns"><input type="text" ng-model="options.rules[2].input"></div>
-        <div class="small-6 large-7 columns"><input type="text" ng-model="options.rules[2].output"></div>
+        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[2].input"></div>
+        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[2].output"></div>
       </div>
 
       <div class="row">
         <div class="small-3 large-2 columns">iter.</div>
         <div class='small-3 large-4 columns'>
-          <input type=text ng-model="options.iterations">
+          <input type=text ng-model="favCopy.iterations">
         </div>
         <div class="small-6 columns">
           <div ng-click="changeIteration(-1)" class="button tiny">-</div>
@@ -75,19 +75,27 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="small-3 large-2 columns">line-width</div>
-        <div class="small-6 columns">
-          <div ng-click="changeLineWidth(-1)" class="button tiny">-</div>
-          <div ng-click="changeLineWidth(+1)" class="button tiny">+</div>
+      <div ng-hide="nameForm" class="save-button row">
+        <div class="small-12 small-centered columns">
+          <div ng-click="showNameForm()" class="button">save</div>
         </div>
       </div>
 
-      <div id="save-button" class="row">
-        <div class="small-12 small-centered columns">
-          <div ng-click="save(options)" class="button">save</div>
+      <div ng-show="nameForm">
+        <div class="row">
+          <div class="small-3 columns">
+            name:
+          </div>
+          <div class="small-9 columns">
+            <input ng-model="favCopy.name" placeholder="name it!" type="text">
+          </div>
+        </div>
+        <div class="row">
+          <a ng-click="cancelSave()" class="small-3 columns">cancel</a>
+          <a ng-click="save(favCopy)" class="small-6 large-4 columns button medium">save</a>
         </div>
       </div>
+
     </form>
   </div>
 
@@ -104,9 +112,10 @@
 
   <script src="lib/angular/angular.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script src="js/app.js"></script>
+  <script src="lib/canvas2image/canvas2image.js"></script>
   <script src="js/turtle.js"></script>
   <script src="js/angleDisplay.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
 
