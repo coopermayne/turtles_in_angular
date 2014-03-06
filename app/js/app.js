@@ -121,10 +121,12 @@ app.controller('appCtrl', function($http, $scope,favorites) {
 app.factory('favorites', function($http) {
   return {
     getFavorites: function(){
-      return $http.get('http://0.0.0.0:3000/saved_params');
+      //return $http.get('http://0.0.0.0:3000/saved_params');
+      return $http.get('http://shielded-badlands-4041.herokuapp.com/saved_params');
     },
     postFavorite: function(fav) {
-      return $http.post('http://0.0.0.0:3000/saved_params', fav);
+      //return $http.post('http://0.0.0.0:3000/saved_params', fav);
+      return $http.post('http://shielded-badlands-4041.herokuapp.com/saved_params', fav);
     }
   }
 });
