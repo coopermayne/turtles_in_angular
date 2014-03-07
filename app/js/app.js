@@ -28,6 +28,19 @@ app.directive('previewAngle', function() {
   }
 });
 
+app.directive('supersuper', function() {
+  return {
+    restric: 'A',
+    link: function(scope, element, attr) {
+      scope.$watch('favCopy',function() {
+        if (scope.favCopy.angle) {
+          new Turtle(scope.favCopy);
+        }
+      }, true);
+    }
+  }
+});
+
 app.controller('adminCtrl', function($scope, favorites) {
   $scope.favorites=[];
 
@@ -83,15 +96,6 @@ app.controller('appCtrl', function($scope,favorites) {
 
   loadList();
 
-  var render = function(options, canvasElement) {
-    new Turtle(options); //is it ok to not assing this to a var?...
-  };
-
-  $scope.$watch('favCopy',function(newValue,oldValue) {
-    if ($scope.favCopy.angle) {
-      render($scope.favCopy);
-    }
-  }, true);
 
   //set up button functions
   $scope.changeAngle = function(number) {
