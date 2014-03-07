@@ -3,7 +3,13 @@
 // Declare app level module which depends on filters, and services
 var app = angular.module('myApp', [])
 
-app.controller('appCtrl', function($http, $scope,favorites) {
+//app.config(function($httpProvider) {
+  //var authToken;
+  //authToken = $("meta[name=\"csrf-token\"]").attr("content");
+  //return $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
+//});
+
+app.controller('appCtrl', function($scope,favorites) {
   
   $scope.setUpCopy = function(options) {
     //set up a copy of the selected options so that people can save their changes...
@@ -33,7 +39,7 @@ app.controller('appCtrl', function($http, $scope,favorites) {
   var loadList = function() {
     favorites.getFavorites()
         .success(handleLoadSuccess)
-        .error(function() {console.log('fail'); });
+        .error(function(data,error,fn) {console.log(error); });
   }
 
   loadList();
