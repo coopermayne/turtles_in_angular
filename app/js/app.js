@@ -16,6 +16,18 @@ app.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
+app.directive('previewAngle', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      //make a new angleDisplay whenever there is new data
+      scope.$watch('favCopy.angle',function() {
+        new AngleDisplay(scope.favCopy.angle);
+      }, true);
+    }
+  }
+});
+
 app.controller('adminCtrl', function($scope, favorites) {
   $scope.favorites=[];
 
@@ -75,11 +87,6 @@ app.controller('appCtrl', function($scope,favorites) {
     new Turtle(options); //is it ok to not assing this to a var?...
   };
 
-  //make a new angleDisplay whenever there is new data
-  $scope.$watch('favCopy.angle',function() {
-    new AngleDisplay($scope.favCopy.angle);
-  }, true);
-
   $scope.$watch('favCopy',function(newValue,oldValue) {
     if ($scope.favCopy.angle) {
       render($scope.favCopy);
@@ -90,6 +97,7 @@ app.controller('appCtrl', function($scope,favorites) {
   $scope.changeAngle = function(number) {
     $scope.favCopy.angle = +$scope.favCopy.angle + (+number);
   };
+
   $scope.changeIteration = function(number) {
     $scope.favCopy.iterations = +$scope.favCopy.iterations + (+number);
   };
