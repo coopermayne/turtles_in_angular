@@ -122,16 +122,17 @@ app.controller('appCtrl', function($scope,favorites) {
   };
 
   var prepareForDb = function(options) {
+    console.log(options);
     return { saved_param: {
         creator: options.creator,
         name: options.name,
         axiom: options.axiom,
-        rule1_input: options.rule1_input,
-        rule1_output: options.rule1_output,
-        rule2_input: options.rule2_input,
-        rule2_output: options.rule2_output,
-        rule3_input: options.rule3_input,
-        rule3_output: options.rule3_output,
+        rule1_input: options.rules[0].input,
+        rule1_output: options.rules[0].output,
+        rule2_input: options.rules[1].input,
+        rule2_output: options.rules[1].output,
+        rule3_input: options.rules[2].input,
+        rule3_output: options.rules[2].output,
         iterations: options.iterations,
         angle: options.angle
       }
@@ -151,8 +152,8 @@ app.controller('appCtrl', function($scope,favorites) {
 });
 
 app.factory('favorites', function($http) {
-  //var url = 'http://0.0.0.0:3000/saved_params';
-  var url = 'http://shielded-badlands-4041.herokuapp.com/saved_params';
+  var url = 'http://0.0.0.0:3000/saved_params';
+  //var url = 'http://shielded-badlands-4041.herokuapp.com/saved_params';
   return {
     getFavorites: function(){
       return $http.get(url);
