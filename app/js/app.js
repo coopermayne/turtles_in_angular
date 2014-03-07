@@ -4,7 +4,6 @@
 var app = angular.module('myApp', ['ngRoute'])
 
 app.config(['$routeProvider', function($routeProvider) {
-
   $routeProvider.
     when('/', {
       templateUrl: 'templates/mainApp.html',
@@ -133,29 +132,11 @@ app.controller('appCtrl', function($scope,favorites) {
     // and treat it like all the rest...
   };
 
-  var prepareForDb = function(options) {
-    console.log(options);
-    return { saved_param: {
-        creator: options.creator,
-        name: options.name,
-        axiom: options.axiom,
-        rule1_input: options.rules[0].input,
-        rule1_output: options.rules[0].output,
-        rule2_input: options.rules[1].input,
-        rule2_output: options.rules[1].output,
-        rule3_input: options.rules[2].input,
-        rule3_output: options.rules[2].output,
-        iterations: options.iterations,
-        angle: options.angle
-      }
-    }
-  };
-
   $scope.save = function(options) {
     //hide name form... try to save... alert with result
     $scope.nameForm = false;
 
-    options = prepareForDb(options);
+    options = favorites.prepareForDb(options);
 
     favorites.postFavorite(options)
       .success(handleSaveSuccess)
@@ -167,8 +148,25 @@ app.factory('favorites', function($http) {
   var url = 'http://0.0.0.0:3000/saved_params';
   //var url = 'http://shielded-badlands-4041.herokuapp.com/saved_params';
   return {
+
     getFavorites: function(){
       return $http.get(url);
+    },
+    prepareForDb: function(options) {
+      return { saved_param: {
+          creator: options.creator,
+          name: options.name,
+          axiom: options.axiom,
+          rule1_input: options.rules[0].input,
+          rule1_output: options.rules[0].output,
+          rule2_input: options.rules[1].input,
+          rule2_output: options.rules[1].output,
+          rule3_input: options.rules[2].input,
+          rule3_output: options.rules[2].output,
+          iterations: options.iterations,
+          angle: options.angle
+        }
+      }
     },
     postFavorite: function(fav) {
       return $http.post(url, fav);
