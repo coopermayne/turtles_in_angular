@@ -1,13 +1,40 @@
 'use strict';
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('myApp', [])
+var app = angular.module('myApp', ['ngRoute'])
 
-//app.config(function($httpProvider) {
-  //var authToken;
-  //authToken = $("meta[name=\"csrf-token\"]").attr("content");
-  //return $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken;
-//});
+app.config(['$routeProvider', function($routeProvider) {
+
+  $routeProvider.
+    when('/', {
+      templateUrl: 'templates/mainApp.html',
+      controller: 'appCtrl'
+  }).
+    when('/admin', {
+      templateUrl: 'templates/adminApp.html',
+      controller: 'adminCtrl'
+  });
+}]);
+
+app.controller('adminCtrl', function($scope, favorites) {
+  $scope.favorites=[];
+
+  $scope.deleteFavorite = function(fav) {
+    favorites.deleteFavorite(fav)
+      .success(function() {
+        console.log('success');
+        var favIndex = $scope.favorites.indexOf(fav);
+        $scope.favorites.splice(favIndex,1);
+      })
+      .error(function(){console.log('error')});
+  }
+
+  favorites.getFavorites()
+    .success(function(data) {
+      $scope.favorites = data;
+    })
+    .error(function() {console.log('error'); });
+});
 
 app.controller('appCtrl', function($scope,favorites) {
   
@@ -39,12 +66,12 @@ app.controller('appCtrl', function($scope,favorites) {
   var loadList = function() {
     favorites.getFavorites()
         .success(handleLoadSuccess)
-        .error(function(data,error,fn) {console.log(error); });
+        .error(function(data,error,fn) {console.log(data ,error); });
   }
 
   loadList();
 
-  var render = function(options) {
+  var render = function(options, canvasElement) {
     new Turtle(options); //is it ok to not assing this to a var?...
   };
 
@@ -57,7 +84,6 @@ app.controller('appCtrl', function($scope,favorites) {
     if ($scope.favCopy.angle) {
       render($scope.favCopy);
     }
-    console.log();
   }, true);
 
   //set up button functions
@@ -125,14 +151,20 @@ app.controller('appCtrl', function($scope,favorites) {
 });
 
 app.factory('favorites', function($http) {
+  var url = 'http://0.0.0.0:3000/saved_params';
+  //var url = 'http://shielded-badlands-4041.herokuapp.com/saved_params';
   return {
     getFavorites: function(){
-      //return $http.get('http://0.0.0.0:3000/saved_params');
-      return $http.get('http://shielded-badlands-4041.herokuapp.com/saved_params');
+      return $http.get(url);
     },
     postFavorite: function(fav) {
-      //return $http.post('http://0.0.0.0:3000/saved_params', fav);
-      return $http.post('http://shielded-badlands-4041.herokuapp.com/saved_params', fav);
+      return $http.post(url, fav);
+    },
+    deleteFavorite: function(fav) {
+      return $http({
+        method: 'DELETE',
+        url: url + "/" + fav.id
+      })
     }
   }
 });

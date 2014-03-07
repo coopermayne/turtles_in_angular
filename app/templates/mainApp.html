@@ -1,0 +1,98 @@
+<div id='shell'>
+  <div id="control-panel" class="small-4 columns">
+    <form>
+      <h3>Parameters<span>help</span></h3>
+
+      <div class="row">
+        <select 
+          ng-change="setUpCopy(options)"
+          ng-model="options"
+          ng-options="fav as fav.name for fav in favorites">
+        </select>
+      </div>
+
+      <div id="angle" class="row">
+        <div class="small-12 small-centered large-10 columns">
+          <canvas id='angle-preview' previewangle="{{favCopy.angle}}" height=200 width=400></canvas>
+        </div>
+        <div class='small-2 columns'>
+        </div>
+      </div>
+
+      <div id="angle-num" class="row">
+        <div class="small-3 large-2 columns">angle</div>
+        <div class='small-3 large-4 columns'>
+          <input type=text ng-model="favCopy.angle">
+        </div>
+        <div class="small-6 columns">
+          <div ng-click="changeAngle('-1')" class="button tiny">-</div>
+          <div ng-click="changeAngle('+1')" class="button tiny">+</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-3 large-2 columns">axiom</div>
+        <div class="small-9 large-10 columns"><input type="text" ng-model="favCopy.axiom"></div>
+      </div>
+
+      <div class="row">
+        <div class="small-3 large-2 columns">rule1</div>
+        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[0].input"></div>
+        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[0].output"></div>
+      </div>
+
+      <div class="row">
+        <div class="small-3 large-2 columns">rule2</div>
+        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[1].input"></div>
+        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[1].output"></div>
+      </div>
+
+      <div class="row">
+        <div class="small-3 large-2 columns">rule3</div>
+        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[2].input"></div>
+        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[2].output"></div>
+      </div>
+
+      <div class="row">
+        <div class="small-3 large-2 columns">iter.</div>
+        <div class='small-3 large-4 columns'>
+          <input type=text ng-model="favCopy.iterations">
+        </div>
+        <div class="small-6 columns">
+          <div ng-click="changeIteration(-1)" class="button tiny">-</div>
+          <div ng-click="changeIteration(+1)" class="button tiny">+</div>
+        </div>
+      </div>
+
+      <div ng-hide="nameForm" class="save-button row">
+        <div class="small-12 small-centered columns">
+          <div ng-click="showNameForm()" class="button">save</div>
+        </div>
+      </div>
+
+      <div ng-show="nameForm">
+        <div class="row">
+          <div class="small-3 columns">
+            name:
+          </div>
+          <div class="small-9 columns">
+            <input ng-model="favCopy.name" placeholder="name it!" type="text">
+          </div>
+        </div>
+        <div class="row">
+          <a ng-click="cancelSave()" class="small-3 columns">cancel</a>
+          <a ng-click="save(favCopy)" class="small-6 large-4 columns button medium">save</a>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <div supersuper id="canvas-container" class="small-8 columns">
+    <div id='info'>
+      <span></span>
+    </div>
+
+    <canvas id="main" width="700" height="700"></canvas>
+  </div>
+</div>

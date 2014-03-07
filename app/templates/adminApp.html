@@ -1,0 +1,13 @@
+<table>
+  <tr>
+    <th>id</th>
+    <th>name</th>
+    <th>actions</th>
+  </tr>
+
+  <tr ng-repeat="fav in favorites">
+    <td>{{fav.id}}</td>
+    <td>{{fav.name}}</td>
+    <td><a ng-click="deleteFavorite(fav)">delete</a></td>
+  </tr>
+</table>

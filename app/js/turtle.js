@@ -11,6 +11,7 @@ Turtle = (function() {
     this.lineWidth = options.lineWidth || 1;
     this.distanceMultiplier = options.distanceMultiplier || 1;
     this.canvas = document.getElementById('main');
+    //this.canvas = canvas;
     this.context = this.canvas.getContext('2d');
     this.radians = 0;
     this.string = options.axiom;
