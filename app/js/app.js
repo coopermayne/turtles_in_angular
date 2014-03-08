@@ -21,7 +21,7 @@ app.directive('previewAngle', function() {
     link: function(scope, element, attr) {
       //make a new angleDisplay whenever there is new data
       scope.$watch('favCopy.angle',function() {
-        new AngleDisplay(scope.favCopy.angle);
+        new AngleDisplay(scope.favCopy.angle, element[0]);
       }, true);
     }
   }

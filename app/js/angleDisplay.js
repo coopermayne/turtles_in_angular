@@ -1,8 +1,8 @@
 var AngleDisplay;
 
-AngleDisplay = function(angle) {
+AngleDisplay = function(angle, element) {
   this.angle = angle * (2 * Math.PI / 360);
-  this.canvas = document.getElementById('angle-preview');
+  this.canvas = element;
   this.context = this.canvas.getContext('2d');
   var center_x = this.canvas.width/2;
   var center_y = this.canvas.height;
