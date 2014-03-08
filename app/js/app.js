@@ -20,6 +20,7 @@ app.config(['$routeProvider', function($routeProvider) {
 }]);
 
 app.controller('newScience', function($scope) {
+  $scope.options = {};
 });
 
 app.directive('newSci', function() {
@@ -27,10 +28,9 @@ app.directive('newSci', function() {
     restric: 'A',
     link: function(scope, element, attr) {
       console.log('working');
-      //scope.$watch('favCopy',function() {
-        //if (scope.favCopy.angle) {
-          //new Turtle(scope.favCopy, element[0]);
-        //}
+      //new NewScience(scope.options, element[0]);
+      //scope.$watch('options',function() {
+        //new NewScience(scope.options, element[0]);
       //}, true);
     }
   }
