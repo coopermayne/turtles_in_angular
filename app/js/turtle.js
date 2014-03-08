@@ -2,7 +2,7 @@ var Turtle;
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Turtle = (function() {
-  function Turtle(options) {
+  function Turtle(options, element) {
     this.startingString = options.axiom;
     this.rules = options.rules;
     this.iterations = options.iterations || 1;
@@ -10,8 +10,7 @@ Turtle = (function() {
     this.distance = 5;
     this.lineWidth = options.lineWidth || 1;
     this.distanceMultiplier = options.distanceMultiplier || 1;
-    this.canvas = document.getElementById('main');
-    //this.canvas = canvas;
+    this.canvas = element;
     this.context = this.canvas.getContext('2d');
     this.radians = 0;
     this.string = options.axiom;

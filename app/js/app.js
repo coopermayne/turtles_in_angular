@@ -33,7 +33,7 @@ app.directive('supersuper', function() {
     link: function(scope, element, attr) {
       scope.$watch('favCopy',function() {
         if (scope.favCopy.angle) {
-          new Turtle(scope.favCopy);
+          new Turtle(scope.favCopy, element[0]);
         }
       }, true);
     }
@@ -148,10 +148,6 @@ app.factory('favorites', function($http) {
   var url = 'http://0.0.0.0:3000/saved_params';
   //var url = 'http://shielded-badlands-4041.herokuapp.com/saved_params';
   return {
-
-    getFavorites: function(){
-      return $http.get(url);
-    },
     prepareForDb: function(options) {
       return { saved_param: {
           creator: options.creator,
@@ -167,6 +163,9 @@ app.factory('favorites', function($http) {
           angle: options.angle
         }
       }
+    },
+    getFavorites: function(){
+      return $http.get(url);
     },
     postFavorite: function(fav) {
       return $http.post(url, fav);
