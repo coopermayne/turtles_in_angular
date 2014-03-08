@@ -155,8 +155,8 @@ app.controller('adminCtrl', function($scope, favorites) {
 });
 
 app.factory('favorites', function($http) {
-  var url = 'http://0.0.0.0:3000/saved_params';
-  //var url = 'http://shielded-badlands-4041.herokuapp.com/saved_params';
+  //var url = 'http://0.0.0.0:3000/saved_params';
+  var url = 'http://shielded-badlands-4041.herokuapp.com/saved_params';
   return {
     prepareForDb: function(options) {
       return { saved_param: {
