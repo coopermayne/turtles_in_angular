@@ -9,11 +9,32 @@ app.config(['$routeProvider', function($routeProvider) {
       templateUrl: 'templates/mainApp.html',
       controller: 'appCtrl'
   }).
+    when('/new_science', {
+      templateUrl: 'templates/newScience.html',
+      controller: 'newScience'
+  }).
     when('/admin', {
       templateUrl: 'templates/adminApp.html',
       controller: 'adminCtrl'
   });
 }]);
+
+app.controller('newScience', function($scope) {
+});
+
+app.directive('newSci', function() {
+  return {
+    restric: 'A',
+    link: function(scope, element, attr) {
+      console.log('working');
+      //scope.$watch('favCopy',function() {
+        //if (scope.favCopy.angle) {
+          //new Turtle(scope.favCopy, element[0]);
+        //}
+      //}, true);
+    }
+  }
+});
 
 app.directive('updateOnChange', function() {
   return {

@@ -240,6 +240,5 @@ Turtle = (function() {
   };
 
   return Turtle;
-
 })();
 
