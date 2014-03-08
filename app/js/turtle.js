@@ -105,14 +105,14 @@ Turtle = (function() {
 
   Turtle.prototype.turn = function(direction) {
     if (direction === 'r') {
-      return this.radians = this.radians - this.d_radians;
+      this.radians = this.radians - this.d_radians;
     } else if (direction === 'l') {
-      return this.radians = this.radians + this.d_radians;
+      this.radians = this.radians + this.d_radians;
     }
   };
 
   Turtle.prototype.popIn = function() {
-    return this.popList.push({
+    this.popList.push({
       radians: this.radians,
       pos: {
         x: this.pos.x,
@@ -126,7 +126,7 @@ Turtle = (function() {
     r = this.popList.pop();
     this.pos = r.pos;
     this.radians = r.radians;
-    return this.points.push({
+    this.points.push({
       x: this.pos.x,
       y: this.pos.y,
       isNode: true
@@ -180,12 +180,12 @@ Turtle = (function() {
       }
     }
     ctx.stroke();
-    return this.resetTurtle();
+    this.resetTurtle();
   };
 
   Turtle.prototype.resetCanvas = function() {
     this.context.translate(-this.lastTrans.x, -this.lastTrans.y);
-    return this.context.scale(1 / this.scaler, 1 / this.scaler);
+    this.context.scale(1 / this.scaler, 1 / this.scaler);
   };
 
   Turtle.prototype.resetTurtle = function() {
@@ -208,7 +208,7 @@ Turtle = (function() {
       x: 0,
       y: 0
     };
-    return this.points = [$.extend(true, {}, this.pos)];
+    this.points = [$.extend(true, {}, this.pos)];
   };
 
   Turtle.prototype.resizeCanvas = function() {
@@ -222,18 +222,12 @@ Turtle = (function() {
     widthRatio = this.canvas.width / width;
     heightRatio = this.canvas.height / height;
     this.scaler = Math.min.apply(null, [widthRatio, heightRatio, 15]) * 0.9;
-    rulesString = this.rules.map(function(z) {
-      return "" + z.input + "->" + z.output;
-    });
-    rulesString = rulesString.join(", ");
-    text = "iterations:  " + this.iterations + ", scale:     " + (this.scaler.toFixed(2)) + ", segments:   " + this.points.length;
-    $('#info span:first-child').text(text);
     dx = -1 * (center.x - this.canvas.width / (2 * this.scaler));
     dy = -1 * (center.y - this.canvas.height / (2 * this.scaler));
     this.context.scale(this.scaler, this.scaler);
     this.lastTrans.x = dx;
     this.lastTrans.y = dy;
-    return this.context.translate(dx, dy);
+    this.context.translate(dx, dy);
   };
 
   Turtle.prototype.drawNextIteration = function() {
@@ -242,7 +236,7 @@ Turtle = (function() {
     customTimer(this.generateString, 'generate string', this);
     customTimer(this.readString, 'find points', this);
     this.resizeCanvas();
-    return customTimer(this.draw, 'draw', this);
+    customTimer(this.draw, 'draw', this);
   };
 
   return Turtle;

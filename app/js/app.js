@@ -62,12 +62,11 @@ app.controller('adminCtrl', function($scope, favorites) {
 
 app.controller('appCtrl', function($scope,favorites) {
   
-  $scope.setUpCopy = function(options) {
-    //set up a copy of the selected options so that people can save their changes...
+  $scope.setFavCopy = function(options) {
+    // set up a copy of the selected options so 
+    // that people can save their changes...
     $scope.favCopy = angular.copy(options);
     $scope.favCopy.name = null;
-    $scope.favCopy.creator = 'user';
-    $scope.favCopy.id = null;
 
     //close name form if we change to another saved favorite
     $scope.nameForm = false;
@@ -85,7 +84,7 @@ app.controller('appCtrl', function($scope,favorites) {
     };
     $scope.favorites = data;
     $scope.options = data[0];
-    $scope.setUpCopy($scope.options);
+    $scope.setFavCopy($scope.options);
   }
   var loadList = function() {
     favorites.getFavorites()
@@ -127,7 +126,7 @@ app.controller('appCtrl', function($scope,favorites) {
     // make an alert saying successfully saved....
     $scope.favorites.unshift($scope.favCopy);
     $scope.options = $scope.favorites[0];
-    $scope.setUpCopy($scope.options);
+    $scope.setFavCopy($scope.options);
     // add the saved object to the list of favorites
     // and treat it like all the rest...
   };
