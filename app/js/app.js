@@ -45,10 +45,7 @@ app.controller('appCtrl', function($scope,favorites) {
   $scope.changeAngleOnClick = function(ev) {
     var rx= ev.pageX - ev.currentTarget.getBoundingClientRect().left - ev.currentTarget.getBoundingClientRect().width/2;
     var ry = ev.currentTarget.getBoundingClientRect().bottom - ev.pageY;
-    var newAngle = 180*Math.atan(ry/rx)/Math.PI;
-    newAngle = newAngle.toFixed(1);
-    console.log('x: ' + rx + ' ,y: ' + ry);
-    console.log(newAngle);
+    var newAngle = (180*Math.atan(ry/rx)/Math.PI).toFixed(1);
     if( newAngle<0 ){
       $scope.favCopy.angle = Math.abs(newAngle);
     }else{
