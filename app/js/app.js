@@ -15,7 +15,7 @@ app.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
-app.directive('previewAngle', function() {
+app.directive('updateOnChange', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attr) {
@@ -40,28 +40,21 @@ app.directive('supersuper', function() {
   }
 });
 
-app.controller('adminCtrl', function($scope, favorites) {
-  $scope.favorites=[];
+app.controller('appCtrl', function($scope,favorites) {
 
-  $scope.deleteFavorite = function(fav) {
-    favorites.deleteFavorite(fav)
-      .success(function() {
-        console.log('success');
-        var favIndex = $scope.favorites.indexOf(fav);
-        $scope.favorites.splice(favIndex,1);
-      })
-      .error(function(){console.log('error')});
+  $scope.changeAngleOnClick = function(ev) {
+    var rx= ev.pageX - ev.currentTarget.getBoundingClientRect().left - ev.currentTarget.getBoundingClientRect().width/2;
+    var ry = ev.currentTarget.getBoundingClientRect().bottom - ev.pageY;
+    var newAngle = 180*Math.atan(ry/rx)/Math.PI;
+    console.log('x: ' + rx + ' ,y: ' + ry);
+    console.log(newAngle);
+    if( newAngle<0 ){
+      $scope.favCopy.angle = Math.abs(newAngle);
+    }else{
+      $scope.favCopy.angle = 180 - newAngle;
+    }
   }
 
-  favorites.getFavorites()
-    .success(function(data) {
-      $scope.favorites = data;
-    })
-    .error(function() {console.log('error'); });
-});
-
-app.controller('appCtrl', function($scope,favorites) {
-  
   $scope.setFavCopy = function(options) {
     // set up a copy of the selected options so 
     // that people can save their changes...
@@ -141,6 +134,26 @@ app.controller('appCtrl', function($scope,favorites) {
       .success(handleSaveSuccess)
       .error(handleSaveFailure);
   };
+});
+
+app.controller('adminCtrl', function($scope, favorites) {
+  $scope.favorites=[];
+
+  $scope.deleteFavorite = function(fav) {
+    favorites.deleteFavorite(fav)
+      .success(function() {
+        console.log('success');
+        var favIndex = $scope.favorites.indexOf(fav);
+        $scope.favorites.splice(favIndex,1);
+      })
+      .error(function(){console.log('error')});
+  }
+
+  favorites.getFavorites()
+    .success(function(data) {
+      $scope.favorites = data;
+    })
+    .error(function() {console.log('error'); });
 });
 
 app.factory('favorites', function($http) {
