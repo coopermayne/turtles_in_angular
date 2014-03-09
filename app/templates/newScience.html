@@ -4,16 +4,17 @@
       <h3>Parameters</h3>
 
       <form>
-
         <div class='rule' ng-repeat="rule in rules">
           <h6>rule {{$index+1}}</h6>
           <div class='parents'>
-            <div set-color color="{{rule.parents[0]}}"></div>
-            <div set-color color="{{rule.parents[1]}}"></div>
-            <div set-color color="{{rule.parents[2]}}"></div>
+            <div class="box {{determineColor(rule.parents[0])}}">
+            </div>
+            <div class="box {{determineColor(rule.parents[1])}}"></div>
+            <div class="box {{determineColor(rule.parents[2])}}"></div>
           </div>
           <div class='child'>
-            {{rule.child}}<input type="checkbox" ng-model="rule.child" ng-true-value='1' ng-false-false='0' set-color color="{{rule.child}}">
+            <label for="ch{{$index}}" class="box {{determineColor(rule.child)}}" type="checkbox">
+              <input id="ch{{$index}}" type='checkbox' ng-model="rule.child" ng-true-value='1' ng-false-value='0'>
           </div>
         </div>
       </form>

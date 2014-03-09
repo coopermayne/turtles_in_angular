@@ -19,22 +19,13 @@ app.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
-app.directive('setColor', function() {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attr) {
-      element.addClass('box');
-      var color = attr.color;
-      if (color==1) {
-        element.addClass('black');
-      } else {
-        element.removeClass('black');
-      }
+app.controller('newScience', function($scope) {
+  $scope.determineColor = function(val) {
+    console.log('black');
+    if (val=="1") {
+      return "black";
     }
   }
-});
-
-app.controller('newScience', function($scope) {
   $scope.rules = [
     {parents: '111', child: '0'},
     {parents: '110', child: '0'},

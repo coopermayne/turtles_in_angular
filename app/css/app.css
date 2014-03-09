@@ -57,3 +57,41 @@ footer {
   background:grey;
   text-align: right;
 }
+
+
+/* for new_science */
+.rule {
+  display: inline-block;
+  border: 2px black solid;
+  padding: 0 5px 5px 5px;
+  margin-bottom: 5px;
+}
+
+.rule h6 {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.box {
+  padding: 0;
+  margin: 0;
+  width: 30px;
+  height: 30px;
+  border: 1px black solid;
+}
+
+.black {
+  background: black;
+}
+
+.parents div{
+  display: inline-block;
+}
+
+.child label{
+  margin: 0 auto;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
