@@ -19,19 +19,38 @@ app.config(['$routeProvider', function($routeProvider) {
   });
 }]);
 
+app.directive('setColor', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      element.addClass('box');
+      var color = attr.color;
+      if (color==1) {
+        element.addClass('black');
+      } else {
+        element.removeClass('black');
+      }
+    }
+  }
+});
+
 app.controller('newScience', function($scope) {
-  $scope.options = {};
+  $scope.rules = [
+    {parents: '111', child: '0'},
+    {parents: '110', child: '0'},
+    {parents: '101', child: '0'},
+    {parents: '100', child: '1'}, 
+    {parents: '011', child: '1'},
+    {parents: '010', child: '1'},
+    {parents: '001', child: '1'},
+    {parents: '000', child: '0'}
+  ]
 });
 
 app.directive('newSci', function() {
   return {
-    restric: 'A',
+    restrict: 'A',
     link: function(scope, element, attr) {
-      console.log('working');
-      //new NewScience(scope.options, element[0]);
-      //scope.$watch('options',function() {
-        //new NewScience(scope.options, element[0]);
-      //}, true);
     }
   }
 });

@@ -3,12 +3,36 @@
     <form>
       <h3>Parameters</h3>
 
+      <form>
+
+        <div class='rule' ng-repeat="rule in rules">
+          <h6>rule {{$index+1}}</h6>
+          <div class='parents'>
+            <div set-color color="{{rule.parents[0]}}"></div>
+            <div set-color color="{{rule.parents[1]}}"></div>
+            <div set-color color="{{rule.parents[2]}}"></div>
+          </div>
+          <div class='child'>
+            {{rule.child}}<input type="checkbox" ng-model="rule.child" ng-true-value='1' ng-false-false='0' set-color color="{{rule.child}}">
+          </div>
+        </div>
+      </form>
+
+
   </div>
 
   <div id="canvas-container" class="small-8 columns">
-    <div id='info'></div>
+    
+    <table border="0">
+      <tr><th>rule</th></tr>
+      <tr><th>value</th></tr>
+      <tr ng-repeat="rule in rules">
+        <td>{{$index}}</td>
+        <td>{{rule.child}}</td>
+      </tr>
+    </table>
 
-    <canvas new-sci width="700" height="700"></canvas>
+    <!--<canvas new-sci width="8000" height="8000"></canvas>-->
 
   </div>
 </div>
