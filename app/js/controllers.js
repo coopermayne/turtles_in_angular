@@ -26,16 +26,16 @@ controller('newScience', function($scope) {
 
 controller('turtleCtrl', function($scope,favorites) {
 
-  $scope.changeAngleOnClick = function(ev) {
-    var rx= ev.pageX - ev.currentTarget.getBoundingClientRect().left - ev.currentTarget.getBoundingClientRect().width/2;
-    var ry = ev.currentTarget.getBoundingClientRect().bottom - ev.pageY;
-    var newAngle = (180*Math.atan(ry/rx)/Math.PI).toFixed(1);
-    if( newAngle<0 ){
-      $scope.favCopy.angle = Math.abs(newAngle);
-    }else{
-      $scope.favCopy.angle = 180 - newAngle;
-    }
-  }
+  //$scope.changeAngleOnClick = function(ev) {
+    //var rx= ev.pageX - ev.currentTarget.getBoundingClientRect().left - ev.currentTarget.getBoundingClientRect().width/2;
+    //var ry = ev.currentTarget.getBoundingClientRect().bottom - ev.pageY;
+    //var newAngle = (180*Math.atan(ry/rx)/Math.PI).toFixed(1);
+    //if( newAngle<0 ){
+      //$scope.favCopy.angle = Math.abs(newAngle);
+    //}else{
+      //$scope.favCopy.angle = 180 - newAngle;
+    //}
+  //}
 
   $scope.setFavCopy = function(options) {
     // set up a copy of the selected options so 
