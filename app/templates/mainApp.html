@@ -35,23 +35,7 @@
         <div class="small-9 large-10 columns"><input type="text" ng-model="favCopy.axiom"></div>
       </div>
 
-      <div class="row">
-        <div class="small-3 large-2 columns">rule1</div>
-        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[0].input"></div>
-        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[0].output"></div>
-      </div>
-
-      <div class="row">
-        <div class="small-3 large-2 columns">rule2</div>
-        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[1].input"></div>
-        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[1].output"></div>
-      </div>
-
-      <div class="row">
-        <div class="small-3 large-2 columns">rule3</div>
-        <div class="small-3 large-3 columns"><input type="text" ng-model="favCopy.rules[2].input"></div>
-        <div class="small-6 large-7 columns"><input type="text" ng-model="favCopy.rules[2].output"></div>
-      </div>
+      <rule ng-repeat="rule in favCopy.rules" index="{{$index}}"></rule>
 
       <div class="row">
         <div class="small-3 large-2 columns">iter.</div>

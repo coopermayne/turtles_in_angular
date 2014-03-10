@@ -3,6 +3,16 @@
 /* Directives */
 angular.module('myApp.directives', []).
 
+directive('rule', function() {
+  return {
+    restrict: 'E',
+    templateUrl: 'partials/rule.html',
+    link: function(scope,el,attr) {
+      scope.index = +attr.index+1;
+    }
+  }
+}).
+
 directive('newSci', function() {
   return {
     restrict: 'A',
