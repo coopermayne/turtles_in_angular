@@ -5,17 +5,12 @@ NewScience = (function() {
     this.canvas = element;
     this.context = this.canvas.getContext('2d');
     this.rows = options.rows;
-    this.rules = {
-      '111': 0,
-      '110': 0,
-      '101': 0,
-      '100': 1, 
-      '011': 1,
-      '010': 1,
-      '001': 1,
-      '000': 0
+    console.log(options.rules);
+    this.rules={};
+    for (var i = 0; i < options.rules.length; i++) {
+      this.rules[options.rules[i].parents] = +options.rules[i].child;
     }
-    
+
     this.grid =  this.calculateGrid();
     this.draw();
   }
