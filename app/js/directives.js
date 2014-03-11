@@ -65,29 +65,35 @@ directive('renderTurtle', function() {
       scope.$watch('favCopy',function() {
         if (scope.favCopy.angle) {
 
-          var t = new Turtle(scope.favCopy, element[0]);
-
-          var step = function(turtle) {
-            console.log('call');
-            var res = turtle.continueDrawing();
-            console.log(res);
-            if (!res.resetCanvas) {
-              setTimeout(function() {
-                step(turtle);
-              }, 11);
-            }
+          if ( scope.currentDrawingProcess ) {
+            clearTimeout(scope.currentDrawingProcess.timeoutId);
+            scope.currentDrawingProcess.turtle.resetCanvas();
           }
 
-          step(t);
+          var t = new Turtle(scope.favCopy, element[0]);
 
+          var step = function(turtle, scope) {
+            console.log('call');
+            var res = turtle.continueDrawing();
+            //if not done we call this again and keep going
+            if (!res.resetCanvas) {
+              var timeout = setTimeout(function() {
+                step(turtle, scope);
+              }, 13);
+
+              //update the scope so it knows where the animation is....
+              scope.currentDrawingProcess = {turtle:turtle, timeoutId:timeout};
+            } else {
+              //if we are done! we clear out currentDrawingProcess
+              scope.currentDrawingProcess = false;
+            }
+          };
+
+          ///////////////////////////////////////////////////////
+          ///////// THE SELF REF FUNCTION THAT DOES IT ALL
+          ///////////////////////////////////////////////////////
+          step(t, scope);
         }
-
-          //if ( scope.currentDrawingProcess ) {
-            //clearInterval(scope.currentDrawingProcess.id);
-            //scope.currentDrawingProcess.turtle.resetCanvas();
-          //}
-          //scope.currentDrawingProcess = {turtle: t, id: interval};
-        //}
       }, true);
     }
   }
