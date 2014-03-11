@@ -32,52 +32,28 @@ Turtle = (function() {
       x: 0,
       y: 0
     };
+
     this.points = [$.extend(true, {}, this.pos)];
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.generateString();
-    this.readString();
-    this.resizeCanvas();
+    for (var i = 0; i < this.iterations; i++) {
+      this.generateIteration();
+    };
+    this.readString(); //tures string into a set of points on canvas
+    this.resizeCanvas(); //resize to best fit these points
     this.draw();
+    this.resetTurtle(); // so the canvas is back to original size....
   }
 
-  Turtle.prototype.generateString = function() {
+  Turtle.prototype.generateIteration = function() {
     var letter, num, old, rule, ruleInputs, _results;
-    num = this.iterations;
-    _results = [];
-    while (num -= 1) {
-      ruleInputs = this.rules.map(function(x) {
-        return x.input;
-      });
-      old = this.string;
-      this.string = new String;
-      _results.push((function() {
-        var _i, _len, _results1;
-        _results1 = [];
-        for (_i = 0, _len = old.length; _i < _len; _i++) {
-          letter = old[_i];
-          if (__indexOf.call(ruleInputs, letter) >= 0) {
-            _results1.push((function() {
-              var _j, _len1, _ref, _results2;
-              _ref = this.rules;
-              _results2 = [];
-              for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-                rule = _ref[_j];
-                if (letter === rule.input) {
-                  _results2.push(this.string = this.string.concat(rule.output));
-                } else {
-                  _results2.push(void 0);
-                }
-              }
-              return _results2;
-            }).call(this));
-          } else {
-            _results1.push(this.string = this.string.concat(letter));
-          }
-        }
-        return _results1;
-      }).call(this));
-    }
-    return _results;
+    //surround each letter with parens
+    this.string = this.string.replace(/(.)/g, '($1)');
+
+    for (var i = 0; i < this.rules.length; i++) {
+      //only match stuff with parens around it!
+      this.string = this.string.replace(new RegExp("\\((" + this.rules[i].input + ")\\)", "g"), this.rules[i].output);
+    };
+
   };
 
   Turtle.prototype.goForward = function() {
@@ -180,7 +156,6 @@ Turtle = (function() {
       }
     }
     ctx.stroke();
-    this.resetTurtle();
   };
 
   Turtle.prototype.resetCanvas = function() {
