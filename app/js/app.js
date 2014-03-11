@@ -11,7 +11,7 @@ angular.module('myApp', [
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.
     when('/', {
-      templateUrl: 'templates/mainApp.html',
+      templateUrl: 'templates/turtleApp.html',
       controller: 'turtleCtrl'
   }).
     when('/new_science', {

@@ -6,6 +6,9 @@ Turtle = (function() {
     this.startingString = options.axiom;
     this.rules = options.rules;
     this.iterations = options.iterations || 1;
+    //keep track of how many the object has already calculated
+    this.iterationsCalculated = 0;
+
     this.d_radians = options.angle * (2 * Math.PI / 360);
     this.distance = 5;
     this.lineWidth = options.lineWidth || 1;
@@ -35,14 +38,28 @@ Turtle = (function() {
 
     this.points = [$.extend(true, {}, this.pos)];
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    for (var i = 0; i < this.iterations; i++) {
-      this.generateIteration();
+
+    this.progress = {
+      stringGenerated: false,
+      stringRead: false,
+      drawDone: false
     };
-    this.readString(); //tures string into a set of points on canvas
-    this.resizeCanvas(); //resize to best fit these points
-    this.draw();
-    this.resetTurtle(); // so the canvas is back to original size....
   }
+
+  Turtle.prototype.continueDrawing = function() {
+    if (!this.progress.stringGenerated) {
+      this.generateIteration();
+      return;
+    }
+    if (!this.progress.stringRead){
+      this.readString();
+      return;
+    }
+    if (!this.progress.drawDone){
+      this.draw();
+      return;
+    }
+  };
 
   Turtle.prototype.generateIteration = function() {
     var letter, num, old, rule, ruleInputs, _results;
@@ -54,6 +71,10 @@ Turtle = (function() {
       this.string = this.string.replace(new RegExp("\\((" + this.rules[i].input + ")\\)", "g"), this.rules[i].output);
     };
 
+    this.iterationsCalculated += 1;
+    if (this.iterations==this.iterationsCalculated) {
+      this.progress.stringGenerated = true;
+    }
   };
 
   Turtle.prototype.goForward = function() {
@@ -80,9 +101,9 @@ Turtle = (function() {
   };
 
   Turtle.prototype.turn = function(direction) {
-    if (direction === 'r') {
+    if (direction === 'l') {
       this.radians = this.radians - this.d_radians;
-    } else if (direction === 'l') {
+    } else if (direction === 'r') {
       this.radians = this.radians + this.d_radians;
     }
   };
@@ -110,35 +131,37 @@ Turtle = (function() {
   };
 
   Turtle.prototype.readString = function() {
-    var letter, _i, _len, _ref, _results;
+    //TODO reads 10000 each time it is called and returns progress
+    var letter, _i, _len, _ref;
     _ref = this.string;
-    _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       letter = _ref[_i];
       switch (letter) {
         case 'F':
-          _results.push(this.goForward());
+          this.goForward();
           break;
         case "[":
-          _results.push(this.popIn());
+          this.popIn();
           break;
         case "]":
-          _results.push(this.popOut());
+          this.popOut();
           break;
         case 'l':
-          _results.push(this.turn('l'));
+          this.turn('l');
           break;
         case 'r':
-          _results.push(this.turn('r'));
+          this.turn('r');
           break;
         default:
-          _results.push(void 0);
+          break;
       }
     }
-    return _results;
+
+    this.progress.stringRead = true;
   };
 
   Turtle.prototype.draw = function() {
+    this.resizeCanvas(); //resize to best fit these points
     var ctx, i, point, _i, _len, _ref;
     ctx = this.context;
     //so the line is always the width we specified...
@@ -156,34 +179,14 @@ Turtle = (function() {
       }
     }
     ctx.stroke();
+
+    this.resetCanvas(); // the transformations to the canvas are undone here...
+    this.progress.drawDone = true;
   };
 
   Turtle.prototype.resetCanvas = function() {
     this.context.translate(-this.lastTrans.x, -this.lastTrans.y);
     this.context.scale(1 / this.scaler, 1 / this.scaler);
-  };
-
-  Turtle.prototype.resetTurtle = function() {
-    this.resetCanvas();
-    this.string = this.startingString;
-    this.max = {
-      x: 0,
-      y: 0
-    };
-    this.min = {
-      x: 0,
-      y: 0
-    };
-    this.lastTrans = {
-      x: 0,
-      y: 0
-    };
-    this.scaler = 1;
-    this.pos = {
-      x: 0,
-      y: 0
-    };
-    this.points = [$.extend(true, {}, this.pos)];
   };
 
   Turtle.prototype.resizeCanvas = function() {
@@ -203,15 +206,6 @@ Turtle = (function() {
     this.lastTrans.x = dx;
     this.lastTrans.y = dy;
     this.context.translate(dx, dy);
-  };
-
-  Turtle.prototype.drawNextIteration = function() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.iterations++;
-    customTimer(this.generateString, 'generate string', this);
-    customTimer(this.readString, 'find points', this);
-    this.resizeCanvas();
-    customTimer(this.draw, 'draw', this);
   };
 
   return Turtle;

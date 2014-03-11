@@ -25,18 +25,8 @@ controller('newScience', function($scope) {
 }).
 
 controller('turtleCtrl', function($scope,favorites) {
-
-  //$scope.changeAngleOnClick = function(ev) {
-    //var rx= ev.pageX - ev.currentTarget.getBoundingClientRect().left - ev.currentTarget.getBoundingClientRect().width/2;
-    //var ry = ev.currentTarget.getBoundingClientRect().bottom - ev.pageY;
-    //var newAngle = (180*Math.atan(ry/rx)/Math.PI).toFixed(1);
-    //if( newAngle<0 ){
-      //$scope.favCopy.angle = Math.abs(newAngle);
-    //}else{
-      //$scope.favCopy.angle = 180 - newAngle;
-    //}
-  //}
-
+  // every time the object changes we have 
+  // to set up a new copy for the user to work with
   $scope.setFavCopy = function(options) {
     // set up a copy of the selected options so 
     // that people can save their changes...
@@ -47,9 +37,16 @@ controller('turtleCtrl', function($scope,favorites) {
     $scope.nameForm = false;
   }
 
-  //load list of cool patterns from database
+  // load list of cool patterns from database
   $scope.favorites = [];
   $scope.favCopy = {};
+
+  var loadList = function() {
+    favorites.getFavorites()
+        .success(handleLoadSuccess)
+        .error(function(data,error,fn) {console.log(data ,error); });
+  }
+
   var handleLoadSuccess = function(data, status) {
     for (var i = 0; i < data.length; i++) {
       data[i].rules = [];
@@ -61,13 +58,10 @@ controller('turtleCtrl', function($scope,favorites) {
     $scope.options = data[0];
     $scope.setFavCopy($scope.options);
   }
-  var loadList = function() {
-    favorites.getFavorites()
-        .success(handleLoadSuccess)
-        .error(function(data,error,fn) {console.log(data ,error); });
-  }
 
+  ///////////////// LOAD THE LIST /////////////////////
   loadList();
+  /////////////////////////////////////////////////////
 
 
   //set up button functions
@@ -79,7 +73,10 @@ controller('turtleCtrl', function($scope,favorites) {
     $scope.favCopy.iterations = +$scope.favCopy.iterations + (+number);
   };
 
-  //saving form
+  ////////////////////////////////////////////////////////////
+  ///////  SAVING THE FORM TO DB 
+  ////////////////////////////////////////////////////////////
+
   $scope.nameForm = false;
   $scope.showNameForm = function() {
     $scope.nameForm = true;
