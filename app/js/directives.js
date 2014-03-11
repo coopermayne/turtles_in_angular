@@ -71,13 +71,12 @@ directive('renderTurtle', function() {
           var t = new Turtle(scope.favCopy, element[0]);
           var interval = setInterval(function() {
             t.continueDrawing();
-            console.log('drawing.....')
             if ( t.progress.drawDone ) {
               clearInterval(interval);
               scope.currentDrawingProcess = false;
               console.log('done');
             }
-          }, 11);
+          }, 13);
           scope.currentDrawingProcess = {turtle: t, id: interval};
         }
       }, true);

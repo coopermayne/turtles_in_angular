@@ -41,7 +41,7 @@ Turtle = (function() {
 
     this.progress = {
       stringGenerated: false,
-      stringRead: false,
+      pointsGenerated: false,
       canvasResized: false,
       drawDone: false,
       resetCanvas: false,
@@ -52,11 +52,13 @@ Turtle = (function() {
 
   Turtle.prototype.continueDrawing = function() {
     if (!this.progress.stringGenerated) {
+      console.log('generating string');
       this.generateIteration();
       return;
     }
-    if (!this.progress.stringRead){
-      this.readString();
+    if (!this.progress.pointsGenerated){
+      console.log('finding points');
+      this.generatePoints();
       return;
     }
     if (!this.progress.canvasResized) {
@@ -142,7 +144,7 @@ Turtle = (function() {
     });
   };
 
-  Turtle.prototype.readString = function() {
+  Turtle.prototype.generatePoints = function() {
     //TODO reads 10000 each time it is called and returns progress
     var letter, _i, _len, _ref;
     _ref = this.string;
@@ -169,7 +171,7 @@ Turtle = (function() {
       }
     }
 
-    this.progress.stringRead = true;
+    this.progress.pointsGenerated = true;
     this.progress.pointsTotal = this.points.length;
   };
 
@@ -199,8 +201,6 @@ Turtle = (function() {
       this.progress.pointsDrawn = i;
     }
     ctx.stroke();
-    console.log(this.progress.pointsDrawn);
-    console.log(this.progress.pointsTotal);
     if (this.progress.pointsDrawn+1 == this.progress.pointsTotal) {
       this.progress.drawDone = true;
       this.resetCanvas();
