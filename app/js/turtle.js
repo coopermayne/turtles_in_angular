@@ -48,16 +48,19 @@ Turtle = (function() {
       pointsTotal: 0,
       pointsDrawn: 0
     };
+
+    this.stringLengths = [0];
   }
 
   Turtle.prototype.continueDrawing = function() {
+
     if (!this.progress.stringGenerated) {
-      //console.log('generating string');
       this.generateIteration();
+      this.stringLengths.push(this.string.length);
       return this.progress;
     }
     if (!this.progress.pointsGenerated){
-      //console.log('finding points');
+      console.log(this.stringLengths);
       this.generatePoints();
       return this.progress;
     }
@@ -180,7 +183,6 @@ Turtle = (function() {
   Turtle.prototype.draw = function(speedLimit) {
     var ctx, i, point, count;
     var rate = this.progress.pointsTotal/150;
-    console.log(rate);
     if (rate>speedLimit) {
       rate = speedLimit;
     }
