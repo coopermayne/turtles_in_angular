@@ -42,7 +42,11 @@ Turtle = (function() {
     this.progress = {
       stringGenerated: false,
       stringRead: false,
-      drawDone: false
+      canvasResized: false,
+      drawDone: false,
+      resetCanvas: false,
+      pointsTotal: 0,
+      pointsDrawn: 0
     };
   }
 
@@ -55,8 +59,16 @@ Turtle = (function() {
       this.readString();
       return;
     }
+    if (!this.progress.canvasResized) {
+      this.resizeCanvas(); //resize to best fit these points
+      return;
+    }
     if (!this.progress.drawDone){
       this.draw();
+      return;
+    }
+    if (!this.progress.resetCanvas){
+      this.resetCanvas(); // the transformations to the canvas are undone here...
       return;
     }
   };
@@ -158,35 +170,48 @@ Turtle = (function() {
     }
 
     this.progress.stringRead = true;
+    this.progress.pointsTotal = this.points.length;
   };
 
   Turtle.prototype.draw = function() {
-    this.resizeCanvas(); //resize to best fit these points
-    var ctx, i, point, _i, _len, _ref;
+    var ctx, i, point, count;
+    var rate = this.progress.pointsTotal/150;
+    if (rate>1000) {
+      rate = 1000;
+    }
+    count = this.progress.pointsDrawn;
     ctx = this.context;
     //so the line is always the width we specified...
     ctx.lineWidth = ( this.lineWidth/2 ) / this.scaler;
     ctx.lineJoin = 'round';
     ctx.strokeStyle = 'white';
     ctx.beginPath();
-    _ref = this.points;
-    for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-      point = _ref[i];
+    for (i = this.progress.pointsDrawn; i < this.points.length; i++) {
+      if (this.progress.pointsDrawn-count> rate) {
+        break;
+      }
+      point = this.points[i];
       if (point.isNode) {
         ctx.moveTo(point.x, point.y);
       } else {
         ctx.lineTo(point.x, point.y);
       }
+      this.progress.pointsDrawn = i;
     }
     ctx.stroke();
+    console.log(this.progress.pointsDrawn);
+    console.log(this.progress.pointsTotal);
+    if (this.progress.pointsDrawn+1 == this.progress.pointsTotal) {
+      this.progress.drawDone = true;
+      this.resetCanvas();
+    }
 
-    this.resetCanvas(); // the transformations to the canvas are undone here...
-    this.progress.drawDone = true;
   };
 
   Turtle.prototype.resetCanvas = function() {
     this.context.translate(-this.lastTrans.x, -this.lastTrans.y);
     this.context.scale(1 / this.scaler, 1 / this.scaler);
+    this.progress.resetCanvas = true;
   };
 
   Turtle.prototype.resizeCanvas = function() {
@@ -206,6 +231,8 @@ Turtle = (function() {
     this.lastTrans.x = dx;
     this.lastTrans.y = dy;
     this.context.translate(dx, dy);
+
+    this.progress.canvasResized = true;
   };
 
   return Turtle;

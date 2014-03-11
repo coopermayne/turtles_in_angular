@@ -64,15 +64,21 @@ directive('renderTurtle', function() {
     link: function(scope, element, attr) {
       scope.$watch('favCopy',function() {
         if (scope.favCopy.angle) {
+          if ( scope.currentDrawingProcess ) {
+            clearInterval(scope.currentDrawingProcess.id);
+            scope.currentDrawingProcess.turtle.resetCanvas();
+          }
           var t = new Turtle(scope.favCopy, element[0]);
           var interval = setInterval(function() {
             t.continueDrawing();
             console.log('drawing.....')
             if ( t.progress.drawDone ) {
               clearInterval(interval);
+              scope.currentDrawingProcess = false;
               console.log('done');
             }
-          }, 15);
+          }, 11);
+          scope.currentDrawingProcess = {turtle: t, id: interval};
         }
       }, true);
     }
