@@ -74,35 +74,61 @@ directive('renderTurtle', function() {
           scope.currentDrawingProcess.turtle.resetCanvas();
         }
 
-        var findDiff = function(obj1,obj2) {
-          var diffs = [];
-          for (var property in obj1){
-            if (obj1[property] !== obj2[property]) {
-              diffs.push(property);
-            }            
-          }
+        //var findDiff = function(obj1,obj2) {
+          //var diffs = [];
+          //for (var property in obj1){
+            //if (obj1[property] !== obj2[property]) {
+              //diffs.push(property);
+            //}            
+          //}
 
-          console.log(diffs)
-          if (diffs.indexOf('id') !==-1) {return false;} //if we changed objects we have to generate everything new
-          if (diffs.length > 2) {return false;} //if we change more than one thing... we have to gen all again
-          if (diffs.indexOf('angle') !==-1) {return 'angle';} //if only angle we can tweek existing object
-          if (diffs.indexOf('iterations') !==-1) {return 'iterations';} //if only interations we can tweek existing object
-        }
+          //console.log(diffs)
+          //if (diffs.indexOf('id') !==-1) {return false;} //if we changed objects we have to generate everything new
+          //if (diffs.length > 2) {return false;} //if we change more than one thing... we have to gen all again
+          //if (diffs.indexOf('angle') !==-1) {return 'angle';} //if only angle we can tweek existing object
+          //if (diffs.indexOf('iterations') !==-1) {return 'iterations';} //if only interations we can tweek existing object
+        //}
 
-        //detemrine what changed....
-        if (findDiff(newValue,oldValue) == 'angle') {
-          //modify angle and tell the turtle to update
-          console.log('only angle changed');
-        }else if(findDiff(newValue,oldValue) == 'iterations'){
-          //modify iterations and tell the turtle to update
-          console.log('only iterations changed');
-        }else{
-          console.log('making a new one')
-          var t = new Turtle(scope.favCopy, element[0]);
-        }
+        ////detemrine what changed....
+        //var oldTurtle = scope.currentDrawingProcess && scope.currentDrawingProcess.turtle;
+        //if (findDiff(newValue,oldValue) == 'angle') {
+          ////modify angle and tell the turtle to update
+          //oldTurtle.angle = newValue.angle;
+          //oldTurtle.progress = {
+            //stringGenerated: true, //only this is true... this just saves us from 
+                                    ////regenerating string on big iterations 
+                                     ////when we change angle
+            //pointsGenerated: false,
+            //canvasResized: false,
+            //drawDone: false,
+            //resetCanvas: false,
+            //pointsTotal: 0,
+            //pointsDrawn: 0
+          //};
+
+        //}else if(findDiff(newValue,oldValue) == 'iterations'){
+          ////modify iterations and tell the turtle to update
+          //console.log('only iterations changed');
+
+          //oldTurtle.progress = {
+            //stringGenerated: false,
+            //pointsGenerated: false,
+            //canvasResized: false,
+            //drawDone: false,
+            //resetCanvas: false,
+            //pointsTotal: 0,
+            //pointsDrawn: 0
+          //};
+          //oldTurtle.iterations = newValue.iterations;
+
+        //}else{
+          //console.log('making a new one')
+          //var t = new Turtle(scope.favCopy, element[0]);
+        //}
 
         //only iterations changed
 
+        var t = new Turtle(scope.favCopy, element[0]);
 
         var step = function(turtle, scope) {
           var res = turtle.continueDrawing();

@@ -52,6 +52,10 @@ Turtle = (function() {
     this.stringLengths = [0];
   }
 
+  Turtle.prototype.angle = function(deg) {
+    this.d_radians = angle * (2 * Math.PI / 360);
+  }
+
   Turtle.prototype.continueDrawing = function() {
 
     if (!this.progress.stringGenerated) {
