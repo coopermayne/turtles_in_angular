@@ -64,21 +64,30 @@ directive('renderTurtle', function() {
     link: function(scope, element, attr) {
       scope.$watch('favCopy',function() {
         if (scope.favCopy.angle) {
-          if ( scope.currentDrawingProcess ) {
-            clearInterval(scope.currentDrawingProcess.id);
-            scope.currentDrawingProcess.turtle.resetCanvas();
-          }
+
           var t = new Turtle(scope.favCopy, element[0]);
-          var interval = setInterval(function() {
-            t.continueDrawing();
-            if ( t.progress.drawDone ) {
-              clearInterval(interval);
-              scope.currentDrawingProcess = false;
-              console.log('done');
+
+          var step = function(turtle) {
+            console.log('call');
+            var res = turtle.continueDrawing();
+            console.log(res);
+            if (!res.resetCanvas) {
+              setTimeout(function() {
+                step(turtle);
+              }, 11);
             }
-          }, 13);
-          scope.currentDrawingProcess = {turtle: t, id: interval};
+          }
+
+          step(t);
+
         }
+
+          //if ( scope.currentDrawingProcess ) {
+            //clearInterval(scope.currentDrawingProcess.id);
+            //scope.currentDrawingProcess.turtle.resetCanvas();
+          //}
+          //scope.currentDrawingProcess = {turtle: t, id: interval};
+        //}
       }, true);
     }
   }
