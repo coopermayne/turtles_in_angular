@@ -54,24 +54,26 @@ Turtle = (function() {
     if (!this.progress.stringGenerated) {
       console.log('generating string');
       this.generateIteration();
-      return;
+      return this.progress;
     }
     if (!this.progress.pointsGenerated){
       console.log('finding points');
       this.generatePoints();
-      return;
+      return this.progress;
     }
     if (!this.progress.canvasResized) {
       this.resizeCanvas(); //resize to best fit these points
-      return;
+      return this.progress;
     }
     if (!this.progress.drawDone){
       this.draw();
-      return;
+      return this.progress;
     }
     if (!this.progress.resetCanvas){
       this.resetCanvas(); // the transformations to the canvas are undone here...
-      return;
+      return this.progress;
+    }else{
+      return this.progress;
     }
   };
 
