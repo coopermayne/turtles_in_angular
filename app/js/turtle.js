@@ -52,12 +52,12 @@ Turtle = (function() {
 
   Turtle.prototype.continueDrawing = function() {
     if (!this.progress.stringGenerated) {
-      console.log('generating string');
+      //console.log('generating string');
       this.generateIteration();
       return this.progress;
     }
     if (!this.progress.pointsGenerated){
-      console.log('finding points');
+      //console.log('finding points');
       this.generatePoints();
       return this.progress;
     }
@@ -66,7 +66,7 @@ Turtle = (function() {
       return this.progress;
     }
     if (!this.progress.drawDone){
-      this.draw();
+      this.draw(5000);
       return this.progress;
     }
     if (!this.progress.resetCanvas){
@@ -177,11 +177,12 @@ Turtle = (function() {
     this.progress.pointsTotal = this.points.length;
   };
 
-  Turtle.prototype.draw = function() {
+  Turtle.prototype.draw = function(speedLimit) {
     var ctx, i, point, count;
     var rate = this.progress.pointsTotal/150;
-    if (rate>1000) {
-      rate = 1000;
+    console.log(rate);
+    if (rate>speedLimit) {
+      rate = speedLimit;
     }
     count = this.progress.pointsDrawn;
     ctx = this.context;

@@ -73,7 +73,6 @@ directive('renderTurtle', function() {
           var t = new Turtle(scope.favCopy, element[0]);
 
           var step = function(turtle, scope) {
-            console.log('call');
             var res = turtle.continueDrawing();
             //if not done we call this again and keep going
             if (!res.resetCanvas) {
