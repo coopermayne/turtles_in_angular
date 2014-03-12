@@ -22,7 +22,28 @@ directive('newSci', function() {
           rows: 200,
           rules: scope.rules
         };
-        new NewScience(options, document.getElementsByTagName('canvas')[0]);
+        var rendering = new NewScience(options, document.getElementsByTagName('canvas')[0]);
+        var step = function(rend, scope) {
+          var res = rend.continueDrawing();
+          //if not done we call this again and keep going
+          if (!rend.progress.done) {
+            var timeout = setTimeout(function() {
+              step(rend, scope);
+            }, 1000);
+
+            //update the scope so it knows where the animation is....
+            scope.currentDrawingProcess = {rendering:rend, timeoutId:timeout};
+          } else {
+            //if we are done! we clear out currentDrawingProcess
+            scope.currentDrawingProcess.timeoutId = false;
+          }
+        };
+
+        ///////////////////////////////////////////////////////
+        ///////// THE SELF REF FUNCTION THAT DOES IT ALL
+        ///////////////////////////////////////////////////////
+        step(rendering, scope);
+
       }, true);
     }
   }

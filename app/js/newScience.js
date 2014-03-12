@@ -5,14 +5,21 @@ NewScience = (function() {
     this.canvas = element;
     this.context = this.canvas.getContext('2d');
     this.rows = options.rows;
-    console.log(options.rules);
     this.rules={};
     for (var i = 0; i < options.rules.length; i++) {
       this.rules[options.rules[i].parents] = +options.rules[i].child;
     }
 
+    this.start_row = 0;
+
     this.grid =  this.calculateGrid();
-    this.draw();
+    this.lastRenderedRow = 0;
+
+    this.progress = {done: false};
+  }
+
+  NewScience.prototype.continueDrawing = function() {
+    this.drawRows(parseInt(this.grid.length/100));
   }
 
   NewScience.prototype.calculateGrid = function() {
@@ -51,18 +58,27 @@ NewScience = (function() {
 
   }
 
-  NewScience.prototype.draw = function() {
+  NewScience.prototype.drawRows = function(n) {
+    console.log(this.lastRenderedRow, this.grid.length);
     var grid = this.grid;
+    var start_row = this.lastRenderedRow;
+    console.log(start_row)
 
-    for (var i = 0; i < grid.length; i++) {
-      for (var j = 1; j < grid[i].length-1; j++) {
+    for (var i = start_row+1; i < grid.length; i++) {
+      if (i - this.lastRenderedRow > n) {
+        console.log(i,this.lastRenderedRow);
+        return
+      }else{console.log('else')}
+      for (var j = 0; j < grid[i].length-1; j++) {
         var color = 'white';
         if(grid[i][j]){
           color = 'black';
         }
 
         this.drawCell(i,j, color);
+
       };
+      this.lastRenderedRow = i+1;
     };
   }
 

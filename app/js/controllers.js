@@ -7,7 +7,6 @@ angular.module('myApp.controllers', []).
 
 controller('newScience', function($scope) {
   $scope.determineColor = function(val) {
-    console.log('black');
     if (val=="1") {
       return "black";
     }
