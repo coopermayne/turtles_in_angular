@@ -47,12 +47,13 @@ Turtle = (function() {
       resetCanvas: false,
       chunks: [],
       chunk_i: 0,
+      totalChunks: 0,
       chunkingInProgress: false,
       pointsTotal: 0,
       pointsDrawn: 0
     };
 
-    this.maxStringLength = 6;
+    this.maxStringLength = 10000;
 
   }
 
@@ -64,7 +65,6 @@ Turtle = (function() {
 
     if (!this.progress.stringGenerated) {
       this.generateString(); //max chunk length
-      console.log(this.progress.chunks)
       return this.progress;
     }
     if (!this.progress.pointsGenerated){
@@ -88,6 +88,7 @@ Turtle = (function() {
   };
 
   Turtle.prototype.generateString = function() {
+    console.log(this.string.length);
     var letter, num, old, rule, ruleInputs, _results;
 
     if (this.progress.chunkingInProgress) { //if we are in the middle of handling chunks... continue!
@@ -104,8 +105,10 @@ Turtle = (function() {
         this.progress.chunkingInProgress =  false;
       }
     } else if (this.string.length > this.maxStringLength) {  //if not chunking AND string is too long... we start chunking process
+
       this.startChunking();
       this.progress.chunkingInProgress = true;
+
     } else { //if not chunking AND string is not long... we just replace it....
       this.string = this.stringReplacement(this.string);
       this.iterationsCalculated += 1;
@@ -118,25 +121,27 @@ Turtle = (function() {
   };
 
   Turtle.prototype.startChunking = function() {
-      var max = this.maxStringLength;
-      var chunks = this.string.length/max; //the number of chunks (plus we'll need one more for remainder
-      this.chunks = [];
-      for (var i = 0; i < chunks; i++) {
-        var subStr = this.string.substring(i*max, (i+1)*max);
-        this.progress.chunks.push(subStr);
-      }
+      this.progress.totalChunks = 
+        ( this.string.length/this.maxStringLength ) + 1;
   };
 
 
   Turtle.prototype.continueChunking= function() {   //return 'done' after doing the last chunk!
     var chunk_i = this.progress.chunk_i;
+    var max = this.maxStringLength;
 
-    this.progress.chunks[chunk_i] = this.stringReplacement(this.progress.chunks[chunk_i]);
-    this.progress.chunk_i += 1;
+    var subStr = this.string.substring(chunk_i*max, (chunk_i+1)*max);
 
-    if (this.progress.chunk_i == this.progress.chunks.length) {
+    this.progress.chunks.push(this.stringReplacement(subStr));
+
+
+    if (this.progress.chunk_i == this.progress.totalChunks || this.progress.chunk_i > this.progress.totalChunks) {
       return 'done';
+    } else {
+      this.progress.chunk_i += 1;
     }
+
+
   };
 
 
