@@ -1,5 +1,8 @@
 <div id='shell'>
-  <div id="control-panel" class="small-4 columns">
+
+  <div id="control-panel-handle" ng-mouseover="showMenu=true" ng-hide="showMenu">menu</div>
+
+  <div id="control-panel" ng-show="showMenu" ng-mouseleave="showMenu=false">
     <form>
       <h3>Parameters<span>help</span></h3>
 
@@ -72,12 +75,12 @@
     </form>
   </div>
 
-  <div id="canvas-container" class="small-8 columns">
+  <div id="canvas-container" class="">
     <div id='info'>
       <span></span>
     </div>
 
-    <canvas render-turtle id="main" width="700" height="700"></canvas>
+    <canvas render-turtle id="main" width="1200" height="1200"></canvas>
 
   </div>
 </div>

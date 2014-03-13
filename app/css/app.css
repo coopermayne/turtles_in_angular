@@ -2,19 +2,34 @@
 
 body {
   background: grey;
+  background: purple;
 }
 
 #shell{
   width: 100%;
-  max-width: 1100px;
-  min-width: 700px;
+  /*max-width: 1100px;*/
+  /*min-width: 700px;*/
   margin: 0 auto;
-  background: white;
   display:table;
+}
+
+#control-panel-handle {
+  font-weight:bold;
+  font-size: 20px;
+  padding: 30px;
+  height: 100%;
+  display:inline-block;
+  color: white;
+  position: absolute;
+  z-index: 100;
 }
 
 #control-panel {
   background: white;
+  max-width: 400px;
+  position: absolute;
+  z-index: 1000;
+  padding: 20px;
 }
 
 #angle canvas{
@@ -28,17 +43,6 @@ body {
   width: 100%;
 }
 
-.my-modal {
-  background: white;
-  padding: 25px 40px 15px 40px;
-  max-width: 200px;
-}
-
-.my-modal a {
-  float: right;
-  margin-top: 15px;
-}
-
 /*graphic*/
 #info{
   color: white;
@@ -50,7 +54,13 @@ body {
 
 #canvas-container canvas{
   background: purple;
-  width: 100%;
+  /*width: 100%;*/
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  right: 0;
+  left: 0;
+  margin: auto;
 }
 
 footer {

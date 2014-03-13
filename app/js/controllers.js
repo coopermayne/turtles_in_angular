@@ -24,6 +24,8 @@ controller('newScience', function($scope) {
 }).
 
 controller('turtleCtrl', function($scope,favorites) {
+
+  $scope.showMenu = false;
   // every time the object changes we have 
   // to set up a new copy for the user to work with
   $scope.setFavCopy = function(options) {
