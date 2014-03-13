@@ -1,8 +1,7 @@
 <div id='shell'>
+  <div id="control-panel-handle" ng-mouseover="showMenu=true">showMenu</div>
 
-  <div id="control-panel-handle" ng-mouseover="showMenu=true" ng-hide="showMenu">menu</div>
-
-  <div id="control-panel" ng-show="showMenu">
+  <div id="control-panel" class='toggle' ng-if="showMenu">
     <form>
       <h3>Parameters</h3>
 

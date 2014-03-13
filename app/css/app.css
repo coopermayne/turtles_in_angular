@@ -24,6 +24,27 @@ body {
   z-index: 100;
 }
 
+
+.toggle {
+  transition:  cubic-bezier(0.42,0,0.58,1) .5s;
+}
+
+.toggle.ng-enter {
+  margin-left: -370px;
+}
+
+.toggle.ng-enter-active {
+  margin-left: 0px;
+}
+
+.toggle.ng-leave {
+  margin-left: 0px;
+}
+
+.toggle.ng-leave-active {
+  margin-left: -370px;
+}
+
 #control-panel {
   background: white;
   max-width: 370px;
