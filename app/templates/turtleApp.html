@@ -15,6 +15,23 @@
         </div>
       </div>
 
+      <div id="iter-num" class="row">
+        <div class="small-3 small-offset-2 columns text">iterations</div>
+        <div class='small-2 text-center columns bold'>
+          {{favCopy.iterations}}
+        </div>
+        <div class="small-4 columns end">
+          <a ng-click="changeIteration(-1)">
+            <img src="img/minus.svg">
+          </a>
+          <a ng-click="changeIteration(+1)">
+            <img src="img/plus2.svg">
+          </a>
+        </div>
+      </div>
+
+      <hr>
+
       <div id="angle" class="row">
         <div class="small-8 small-centered columns">
           <canvas change-on-click ng-click="changeAngleOnClick($event)" update-on-change height=300 width=600></canvas>
@@ -22,11 +39,11 @@
       </div>
 
       <div id="angle-num" class="row">
-        <div class="small-4 columns text"><label class='inline'>angle</label></div>
+        <div class="small-2 small-offset-1 columns text"><label class='inline right'>angle</label></div>
         <div class='small-4 columns'>
           <input type=text ng-model="favCopy.angle">
         </div>
-        <div class="small-4 columns">
+        <div class="small-4 columns end">
           <a ng-click="changeAngle('-1')">
             <img src="img/ccw.svg">
           </a>
@@ -37,26 +54,13 @@
       </div>
 
       <div class="row">
-        <div class="small-4 columns text"><label class='inline'>axiom</label></div>
-        <div class="small-8 columns"><input type="text" ng-model="favCopy.axiom"></div>
+        <div class="small-2 small-offset-1 columns text"><label class='inline right'>axiom</label></div>
+        <div class="small-8 columns end"><input type="text" ng-model="favCopy.axiom"></div>
       </div>
+
+      <h4>substituions rules</h4>
 
       <rule ng-repeat="rule in favCopy.rules" index="{{$index}}"></rule>
-
-      <div id="iter-num" class="row">
-        <div class="small-4 columns text"><label class='inline'>iterations</label></div>
-        <div class='small-4 columns'>
-          <input type=text ng-model="favCopy.iterations">
-        </div>
-        <div class="small-4 columns">
-          <a ng-click="changeIteration(-1)">
-            <img src="img/minus.svg">
-          </a>
-          <a ng-click="changeIteration(+1)">
-            <img src="img/plus2.svg">
-          </a>
-        </div>
-      </div>
 
       <div ng-hide="nameForm" class="save-button row">
         <div class="small-12 small-centered columns">

@@ -64,7 +64,7 @@ h3 {
 }
 
 select{
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .go-left {
@@ -80,9 +80,26 @@ label{
   margin-bottom: 15px;
 }
 
+h4{
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 #iter-num img {
-  margin-top: 3px;
   width: 25px;
+}
+
+#iter-num {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .arrow img {
