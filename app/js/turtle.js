@@ -11,7 +11,7 @@ Turtle = (function() {
 
     this.d_radians = options.angle * (2 * Math.PI / 360);
     this.distance = 5;
-    this.lineWidth = options.lineWidth || 1;
+    this.lineWidth = options.lineWidth || 2;
     this.distanceMultiplier = options.distanceMultiplier || 1;
     this.canvas = element;
     this.context = this.canvas.getContext('2d');

@@ -6,7 +6,8 @@ angular.module('myApp', [
   'ngAnimate',
   'myApp.services',
   'myApp.directives',
-  'myApp.controllers'
+  'myApp.controllers',
+  'myApp.filters'
 ]).
 
 config(['$routeProvider', function($routeProvider) {

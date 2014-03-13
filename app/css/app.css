@@ -26,19 +26,41 @@ body {
 
 #control-panel {
   background: white;
-  max-width: 400px;
+  max-width: 370px;
   position: absolute;
   z-index: 1000;
   padding: 20px;
+}
+
+h3 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+div.text {
+  padding-top: 8px;
 }
 
 #angle canvas{
   width: 100%;
   margin-bottom: 15px;
 }
-#angle-num .button{
-  width: 15px;
+
+#iter-num img {
+  margin-top: 3px;
+  width: 25px;
 }
+
+.arrow img {
+  margin-top: 3px;
+  width: 25px;
+}
+
+#angle-num img {
+  margin-top: 3px;
+  width: 25px;
+}
+
 .save-button .button{
   width: 100%;
 }

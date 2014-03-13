@@ -1,5 +1,11 @@
 <div class="row">
-  <div class="small-3 large-2 columns">rule {{index}}</div>
-  <div class="small-2 large-2 columns">{{rule.input}}</div>
-  <div class="small-7 large-8 columns"><input type="text" ng-model="rule.output"></div>
+  <div class="small-1 columns text">{{index}}.</div>
+  <div class="small-1 columns text">
+    {{rule.input | upcase}}
+  </div>
+
+  <div class="small-2 columns arrow">
+    <img src="img/arrow-right.svg">
+  </div>
+  <div class="small-8 columns"><input type="text" ng-model="rule.output"></div>
 </div>
