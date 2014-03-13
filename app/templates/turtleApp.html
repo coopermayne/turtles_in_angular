@@ -20,7 +20,7 @@
       </div>
 
       <div id="angle-num" class="row">
-        <div class="small-4 columns text">angle</div>
+        <div class="small-4 columns text"><label class='inline'>angle</label></div>
         <div class='small-4 columns'>
           <input type=text ng-model="favCopy.angle">
         </div>
@@ -35,14 +35,14 @@
       </div>
 
       <div class="row">
-        <div class="small-4 columns text">axiom</div>
+        <div class="small-4 columns text"><label class='inline'>axiom</label></div>
         <div class="small-8 columns"><input type="text" ng-model="favCopy.axiom"></div>
       </div>
 
       <rule ng-repeat="rule in favCopy.rules" index="{{$index}}"></rule>
 
       <div id="iter-num" class="row">
-        <div class="small-4 columns text">iterations</div>
+        <div class="small-4 columns text"><label class='inline'>iterations</label></div>
         <div class='small-4 columns'>
           <input type=text ng-model="favCopy.iterations">
         </div>
