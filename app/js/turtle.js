@@ -182,9 +182,9 @@ Turtle = (function() {
   };
 
   Turtle.prototype.turn = function(direction) {
-    if (direction === 'l') {
+    if (direction === '-') {
       this.radians = this.radians - this.d_radians;
-    } else if (direction === 'r') {
+    } else if (direction === '+') {
       this.radians = this.radians + this.d_radians;
     }
   };
@@ -227,11 +227,11 @@ Turtle = (function() {
         case "]":
           this.popOut();
           break;
-        case 'l':
-          this.turn('l');
+        case '-':
+          this.turn('-');
           break;
-        case 'r':
-          this.turn('r');
+        case '+':
+          this.turn('+');
           break;
         default:
           break;
