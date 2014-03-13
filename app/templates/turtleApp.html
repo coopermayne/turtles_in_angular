@@ -6,11 +6,13 @@
       <h3>Parameters</h3>
 
       <div class="row">
-        <select 
-          ng-change="setFavCopy(options)"
-          ng-model="options"
-          ng-options="fav as fav.name for fav in favorites">
-        </select>
+        <div class="small-12 small-centered columns">
+          <select 
+            ng-change="setFavCopy(options)"
+            ng-model="options"
+            ng-options="fav as fav.name for fav in favorites">
+          </select>
+        </div>
       </div>
 
       <div id="angle" class="row">

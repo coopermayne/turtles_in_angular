@@ -16,7 +16,7 @@ body {
 #control-panel-handle {
   font-weight:bold;
   font-size: 20px;
-  padding: 30px;
+  padding: 20px;
   height: 100%;
   display:inline-block;
   color: white;
@@ -31,18 +31,22 @@ body {
 
 .toggle.ng-enter {
   margin-left: -370px;
+  margin-top: -100px;
 }
 
 .toggle.ng-enter-active {
-  margin-left: 0px;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .toggle.ng-leave {
   margin-left: 0px;
+  margin-top: 0px;
 }
 
 .toggle.ng-leave-active {
   margin-left: -370px;
+  margin-top: -100px;
 }
 
 #control-panel {
@@ -50,11 +54,16 @@ body {
   width: 370px;
   position: absolute;
   z-index: 1000;
-  padding: 0px;
+  padding-top: 8px;
+  box-shadow: 0px 0px 5px 3px white;
 }
 
 h3 {
   text-align: center;
+  margin-bottom: 10px;
+}
+
+select{
   margin-bottom: 10px;
 }
 
