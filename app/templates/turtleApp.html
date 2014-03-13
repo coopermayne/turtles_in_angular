@@ -2,7 +2,7 @@
 
   <div id="control-panel-handle" ng-mouseover="showMenu=true" ng-hide="showMenu">menu</div>
 
-  <div id="control-panel" ng-show="showMenu" ng-mouseleave="showMenu=false">
+  <div id="control-panel" ng-show="showMenu">
     <form>
       <h3>Parameters<span>help</span></h3>
 
@@ -80,7 +80,7 @@
       <span></span>
     </div>
 
-    <canvas render-turtle id="main" width="1200" height="1200"></canvas>
+    <canvas render-turtle ng-mouseover="showMenu=false" id="main" width="1200" height="1200"></canvas>
 
   </div>
 </div>

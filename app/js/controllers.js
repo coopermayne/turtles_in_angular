@@ -26,6 +26,10 @@ controller('newScience', function($scope) {
 controller('turtleCtrl', function($scope,favorites) {
 
   $scope.showMenu = false;
+  $scope.specialHide= function(ev) {
+    //if (ev.) {}
+    console.log(ev.explicitOriginalTarget)
+  }
   // every time the object changes we have 
   // to set up a new copy for the user to work with
   $scope.setFavCopy = function(options) {
