@@ -10,7 +10,6 @@ angular.module('myApp.filters', []).
   }]).
 filter('upcase', function() {
     return function(input, uppercase) {
-      console.log('working');
       return input.toUpperCase();
     };
   });

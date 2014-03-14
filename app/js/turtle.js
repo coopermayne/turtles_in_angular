@@ -49,6 +49,7 @@ Turtle = (function() {
       chunk_i: 0,
       totalChunks: 0,
       chunkingInProgress: false,
+      genPointsProgress: 0,
       pointsTotal: 0,
       pointsDrawn: 0
     };
@@ -65,30 +66,29 @@ Turtle = (function() {
 
     if (!this.progress.stringGenerated) {
       this.generateString(); //max chunk length
-      return this.progress;
+      return [ this.progress , 'generateString'];
     }
     if (!this.progress.pointsGenerated){
       this.generatePoints();
-      return this.progress;
+      return [ this.progress, 'genPoints' ];
     }
     if (!this.progress.canvasResized) {
       this.resizeCanvas(); //resize to best fit these points
-      return this.progress;
+      return [ this.progress, 'resizeCanvas' ];
     }
     if (!this.progress.drawDone){
       this.draw({rate: 5000});
-      return this.progress;
+      return [ this.progress, 'draw' ];
     }
     if (!this.progress.resetCanvas){
       this.resetCanvas(); // the transformations to the canvas are undone here...
-      return this.progress;
+      return [ this.progress, 'resetCan' ];
     }else{
-      return this.progress;
+      return [ this.progress, 'else' ];
     }
   };
 
   Turtle.prototype.generateString = function() {
-    console.log(this.string.length);
     var letter, num, old, rule, ruleInputs, _results;
 
     if (this.progress.chunkingInProgress) { //if we are in the middle of handling chunks... continue!
@@ -214,9 +214,15 @@ Turtle = (function() {
   Turtle.prototype.generatePoints = function() {
     //TODO reads 10000 each time it is called and returns progress
     var letter, _i, _len, _ref;
-    _ref = this.string;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      letter = _ref[_i];
+    var nextStop = this.progress.genPointsProgress + 10000;
+
+    if(this.string.length < nextStop){
+      nextStop = this.string.length;
+      this.progress.pointsGenerated = true;
+    }
+
+    for (_i = this.progress.genPointsProgress; _i < nextStop; _i++) {
+      letter = this.string[_i];
       switch (letter) {
         case 'F':
           this.goForward();
@@ -238,7 +244,7 @@ Turtle = (function() {
       }
     }
 
-    this.progress.pointsGenerated = true;
+    this.progress.genPointsProgress = nextStop;
     this.progress.pointsTotal = this.points.length;
   };
 

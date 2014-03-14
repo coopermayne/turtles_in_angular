@@ -103,7 +103,6 @@ directive('renderTurtle', function() {
             }            
           }
 
-          console.log(diffs)
           if (diffs.indexOf('id') !==-1) {return false;} //if we changed objects we have to generate everything new
           if (diffs.length > 2) {return false;} //if we change more than one thing... we have to gen all again
           if (diffs.indexOf('name') !==-1) {return 'name';} //if only angle we can tweek existing object
@@ -156,9 +155,19 @@ directive('renderTurtle', function() {
         var t = new Turtle(scope.favCopy, element[0]);
 
         var step = function(turtle, scope) {
+          var start = new Date().getTime();
+
           var res = turtle.continueDrawing();
+
+          var end = new Date().getTime();
+          var time = end - start;
+
+          if (time> 100) {
+            console.log(res[0], res[1]);
+          }
+
           //if not done we call this again and keep going
-          if (!res.resetCanvas) {
+          if (!res[0].resetCanvas) {
             var timeout = setTimeout(function() {
               step(turtle, scope);
             }, 13);
