@@ -6,12 +6,18 @@ angular.module('myApp.controllers', []).
 
 
 controller('newScience', function($scope) {
+
   $scope.determineColor = function(val) {
     if (val=="1") {
       return "black";
     }
   }
-  $scope.rules = [
+
+  $scope.options = {};
+
+  $scope.options.rows = 200;
+
+  $scope.options.rules = [
     {parents: '111', child: '0'},
     {parents: '110', child: '0'},
     {parents: '101', child: '0'},

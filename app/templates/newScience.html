@@ -1,10 +1,12 @@
 <div id='shell'>
-  <div id="control-panel" class="small-4 columns">
+  <div id="control-panel-handle" ng-mouseover="showMenu=true">Menu</div>
+
+  <div id="control-panel" class="toggle" ng-if="showMenu">
     <form>
       <h3>Parameters</h3>
 
       <form>
-        <div class='rule' ng-repeat="rule in rules">
+        <div class='rule' ng-repeat="rule in options.rules">
           <h6>rule {{$index+1}}</h6>
           <div class='parents'>
             <div class="box {{determineColor(rule.parents[0])}}">
@@ -22,9 +24,9 @@
 
   </div>
 
-  <div id="canvas-container" class="small-8 columns">
+  <div id="canvas-container"> 
     
-    <canvas new-sci width="8000" height="8000"></canvas>
+    <canvas new-sci id="main" ng-mouseover="showMenu=false" width="4000" height="4000"></canvas>
 
   </div>
 </div>

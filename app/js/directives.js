@@ -17,19 +17,15 @@ directive('newSci', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attr) {
-      scope.$watch('rules', function() {
-        var options = {
-          rows: 200,
-          rules: scope.rules
-        };
-        var rendering = new NewScience(options, document.getElementsByTagName('canvas')[0]);
+      scope.$watch('options', function() {
+        var rendering = new NewScience(scope.options, document.getElementsByTagName('canvas')[0]);
         var step = function(rend, scope) {
           var res = rend.continueDrawing();
           //if not done we call this again and keep going
           if (!rend.progress.done) {
             var timeout = setTimeout(function() {
               step(rend, scope);
-            }, 1000);
+            }, 500);
 
             //update the scope so it knows where the animation is....
             scope.currentDrawingProcess = {rendering:rend, timeoutId:timeout};

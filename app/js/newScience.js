@@ -5,6 +5,7 @@ NewScience = (function() {
     this.canvas = element;
     this.context = this.canvas.getContext('2d');
     this.rows = options.rows;
+    this.color = '#158CBA';
     this.rules={};
     for (var i = 0; i < options.rules.length; i++) {
       this.rules[options.rules[i].parents] = +options.rules[i].child;
@@ -13,27 +14,40 @@ NewScience = (function() {
     this.start_row = 0;
 
     this.grid =  this.calculateGrid();
-    this.lastRenderedRow = 0;
+    this.nextRow = 0;
 
     this.progress = {done: false};
   }
 
   NewScience.prototype.continueDrawing = function() {
-    this.drawRows(parseInt(this.grid.length/100));
+    var increments = 10;
+    //check if done
+    if (this.grid.length == this.nextRow) {
+      console.log('done');
+      this.progress.done = true;
+    } else {
+      //if not keep drawing...
+      this.drawRows(increments);
+    }
   }
 
   NewScience.prototype.calculateGrid = function() {
     // make the empty grid
     var rows = this.rows;
-    var bufferedRows = this.rows*2;
+
+    //investigate necessary extra area...
+    var bufferedCols = this.rows*2;
     var rules = this.rules;
-    var BufferedGrid = Array.apply(null, Array(bufferedRows))
+
+    //fill up array with 0s
+    var BufferedGrid = Array.apply(null, Array(rows))
     .map(function() { 
-      return Array.apply(null, Array(bufferedRows))
+      return Array.apply(null, Array(bufferedCols))
                   .map(function() { return 0; });
     });
+
     // set the 1 initial point
-    BufferedGrid[0][Math.floor(BufferedGrid.length/2)] = 1;
+    BufferedGrid[0][Math.floor(bufferedCols/2)] = 1;
 
     var calculateCellValue = function(row_i,col_i, grid, rules) {
       previous_row = grid[row_i-1];
@@ -49,9 +63,9 @@ NewScience = (function() {
     }
 
     //take only the middle part of the buffered grid
-    var grid = []
-    for (var i = 0; i < rows; i++) {
-      grid[i] = BufferedGrid[i].slice(Math.ceil(rows/2), Math.floor(rows*1.5)+1);
+    var grid = [];
+    for (i = 0; i < rows; i++) {
+      grid[i] = BufferedGrid[i].slice(Math.ceil(bufferedCols*0.25), Math.floor(bufferedCols*0.75));
     }
 
     return grid;
@@ -59,26 +73,34 @@ NewScience = (function() {
   }
 
   NewScience.prototype.drawRows = function(n) {
-    console.log(this.lastRenderedRow, this.grid.length);
+    console.log(this.nextRow, this.grid.length);
     var grid = this.grid;
-    var start_row = this.lastRenderedRow;
-    console.log(start_row)
+    var start_row = this.nextRow;
 
-    for (var i = start_row+1; i < grid.length; i++) {
-      if (i - this.lastRenderedRow > n) {
-        console.log(i,this.lastRenderedRow);
-        return
-      }else{console.log('else')}
-      for (var j = 0; j < grid[i].length-1; j++) {
-        var color = 'white';
-        if(grid[i][j]){
-          color = 'black';
+    for (var i = start_row; i < grid.length; i++) {
+
+      //if we have gone n rows return....
+      if (i - start_row +1> n) {
+        console.log('returning');
+        this.nextRow=i;
+        return;
+      } else {
+      //if not draw on...
+
+        for (var j = 0; j < grid[i].length-1; j++) {
+          var color = 'purple';
+          if(grid[i][j]){
+            color = this.color;
+          }
+
+          this.drawCell(i,j, color);
+
         }
 
-        this.drawCell(i,j, color);
+        this.nextRow = i+1;
 
-      };
-      this.lastRenderedRow = i+1;
+      }
+
     };
   }
 
