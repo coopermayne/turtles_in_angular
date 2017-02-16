@@ -6,13 +6,18 @@ angular.module('myApp.controllers', []).
 
 
 controller('newScience', function($scope) {
+
   $scope.determineColor = function(val) {
-    console.log('black');
     if (val=="1") {
       return "black";
     }
   }
-  $scope.rules = [
+
+  $scope.options = {};
+
+  $scope.options.rows = 200;
+
+  $scope.options.rules = [
     {parents: '111', child: '0'},
     {parents: '110', child: '0'},
     {parents: '101', child: '0'},
@@ -25,6 +30,9 @@ controller('newScience', function($scope) {
 }).
 
 controller('turtleCtrl', function($scope,favorites) {
+
+  $scope.showMenu = false;
+
   // every time the object changes we have 
   // to set up a new copy for the user to work with
   $scope.setFavCopy = function(options) {

@@ -11,7 +11,7 @@ Turtle = (function() {
 
     this.d_radians = options.angle * (2 * Math.PI / 360);
     this.distance = 5;
-    this.lineWidth = options.lineWidth || 1;
+    this.lineWidth = options.lineWidth || 2;
     this.distanceMultiplier = options.distanceMultiplier || 1;
     this.canvas = element;
     this.context = this.canvas.getContext('2d');
@@ -45,50 +45,117 @@ Turtle = (function() {
       canvasResized: false,
       drawDone: false,
       resetCanvas: false,
+      chunks: [],
+      chunk_i: 0,
+      totalChunks: 0,
+      chunkingInProgress: false,
+      genPointsProgress: 0,
       pointsTotal: 0,
       pointsDrawn: 0
     };
+
+    this.maxStringLength = 10000;
+
   }
 
+  Turtle.prototype.angle = function(deg) {
+    this.d_radians = angle * (2 * Math.PI / 360);
+  };
+
   Turtle.prototype.continueDrawing = function() {
+
     if (!this.progress.stringGenerated) {
-      console.log('generating string');
-      this.generateIteration();
-      return;
+      this.generateString(); //max chunk length
+      return [ this.progress , 'generateString'];
     }
     if (!this.progress.pointsGenerated){
-      console.log('finding points');
       this.generatePoints();
-      return;
+      return [ this.progress, 'genPoints' ];
     }
     if (!this.progress.canvasResized) {
       this.resizeCanvas(); //resize to best fit these points
-      return;
+      return [ this.progress, 'resizeCanvas' ];
     }
     if (!this.progress.drawDone){
-      this.draw();
-      return;
+      this.draw({rate: 5000});
+      return [ this.progress, 'draw' ];
     }
     if (!this.progress.resetCanvas){
       this.resetCanvas(); // the transformations to the canvas are undone here...
-      return;
+      return [ this.progress, 'resetCan' ];
+    }else{
+      return [ this.progress, 'else' ];
     }
   };
 
-  Turtle.prototype.generateIteration = function() {
+  Turtle.prototype.generateString = function() {
     var letter, num, old, rule, ruleInputs, _results;
-    //surround each letter with parens
-    this.string = this.string.replace(/(.)/g, '($1)');
 
-    for (var i = 0; i < this.rules.length; i++) {
-      //only match stuff with parens around it!
-      this.string = this.string.replace(new RegExp("\\((" + this.rules[i].input + ")\\)", "g"), this.rules[i].output);
-    };
+    if (this.progress.chunkingInProgress) { //if we are in the middle of handling chunks... continue!
 
-    this.iterationsCalculated += 1;
+      var res = this.continueChunking();
+
+      if (res=='done') {
+        this.string = this.progress.chunks.join("");
+        this.iterationsCalculated += 1;
+
+        //reset chunks....
+        this.progress.chunks = [];
+        this.progress.chunk_i =  0;
+        this.progress.chunkingInProgress =  false;
+      }
+    } else if (this.string.length > this.maxStringLength) {  //if not chunking AND string is too long... we start chunking process
+
+      this.startChunking();
+      this.progress.chunkingInProgress = true;
+
+    } else { //if not chunking AND string is not long... we just replace it....
+      this.string = this.stringReplacement(this.string);
+      this.iterationsCalculated += 1;
+    }
+
     if (this.iterations==this.iterationsCalculated) {
       this.progress.stringGenerated = true;
     }
+
+  };
+
+  Turtle.prototype.startChunking = function() {
+      this.progress.totalChunks = 
+        ( this.string.length/this.maxStringLength ) + 1;
+  };
+
+
+  Turtle.prototype.continueChunking= function() {   //return 'done' after doing the last chunk!
+    var chunk_i = this.progress.chunk_i;
+    var max = this.maxStringLength;
+
+    var subStr = this.string.substring(chunk_i*max, (chunk_i+1)*max);
+
+    this.progress.chunks.push(this.stringReplacement(subStr));
+
+
+    if (this.progress.chunk_i == this.progress.totalChunks || this.progress.chunk_i > this.progress.totalChunks) {
+      return 'done';
+    } else {
+      this.progress.chunk_i += 1;
+    }
+
+
+  };
+
+
+  Turtle.prototype.stringReplacement = function(str) {
+
+    var new_str = str.replace(/(.)/g, '($1)');
+
+    for (var i = 0; i < this.rules.length; i++) {
+      //only match stuff with parens around it!
+      new_str = new_str.replace(new RegExp("\\((" + this.rules[i].input + ")\\)", "g"), this.rules[i].output);
+    }
+
+    new_str = new_str.replace(/[\(\)]/g, "");
+    return new_str;
   };
 
   Turtle.prototype.goForward = function() {
@@ -115,9 +182,9 @@ Turtle = (function() {
   };
 
   Turtle.prototype.turn = function(direction) {
-    if (direction === 'l') {
+    if (direction === '-') {
       this.radians = this.radians - this.d_radians;
-    } else if (direction === 'r') {
+    } else if (direction === '+') {
       this.radians = this.radians + this.d_radians;
     }
   };
@@ -147,9 +214,15 @@ Turtle = (function() {
   Turtle.prototype.generatePoints = function() {
     //TODO reads 10000 each time it is called and returns progress
     var letter, _i, _len, _ref;
-    _ref = this.string;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      letter = _ref[_i];
+    var nextStop = this.progress.genPointsProgress + 10000;
+
+    if(this.string.length < nextStop){
+      nextStop = this.string.length;
+      this.progress.pointsGenerated = true;
+    }
+
+    for (_i = this.progress.genPointsProgress; _i < nextStop; _i++) {
+      letter = this.string[_i];
       switch (letter) {
         case 'F':
           this.goForward();
@@ -160,26 +233,26 @@ Turtle = (function() {
         case "]":
           this.popOut();
           break;
-        case 'l':
-          this.turn('l');
+        case '-':
+          this.turn('-');
           break;
-        case 'r':
-          this.turn('r');
+        case '+':
+          this.turn('+');
           break;
         default:
           break;
       }
     }
 
-    this.progress.pointsGenerated = true;
+    this.progress.genPointsProgress = nextStop;
     this.progress.pointsTotal = this.points.length;
   };
 
-  Turtle.prototype.draw = function() {
+  Turtle.prototype.draw = function(options) {
     var ctx, i, point, count;
     var rate = this.progress.pointsTotal/150;
-    if (rate>1000) {
-      rate = 1000;
+    if (rate>options.rate) {
+      rate = options.rate;
     }
     count = this.progress.pointsDrawn;
     ctx = this.context;

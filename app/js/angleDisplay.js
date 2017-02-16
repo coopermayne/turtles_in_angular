@@ -21,7 +21,6 @@ AngleDisplay = function(angle, element) {
   ctx.arc(center_x,center_y,radius, Math.PI, Math.PI+angle, false);
   ctx.fill();
 
-
   ctx.beginPath();
   ctx.lineWidth= 2;
   ctx.strokeStyle = 'white';
